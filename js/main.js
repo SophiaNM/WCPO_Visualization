@@ -1,3 +1,4 @@
+
 // select divs by id:
 var mapDiv = d3.select("#mapDiv");
 var barDiv = d3.select("#barDiv");
@@ -11,10 +12,10 @@ var barTooltip = d3.select("body")
 	.attr("class", "tooltip");
 
 var positionInfo = document.getElementById('mapDiv').getBoundingClientRect();
-var margin = {top: 10, right: 10, bottom: 10, left: 10};
+var margin = {top: 45, right: 10, bottom: 20, left: -80};
 var width = positionInfo.width;
 	width = width - margin.left - margin.right;
-var height = positionInfo.height;
+var height = positionInfo.height + margin.bottom;
 
 var main = mapDiv.append("svg")
 	.attr("viewBox", `0 0 ${width} ${height}`);
@@ -57,9 +58,8 @@ function highlightCountry(d){
 		.style("display", "block")
 		.style("opacity", 1);
 	
-	
-	
 }
+
 function onMouseMove(){
 	barTooltip.style("top", (d3.event.pageY-25)+"px")
 	.style("left", (d3.event.pageX+10)+"px");
@@ -92,27 +92,29 @@ function onMapClick(d){
 		.style("fill-opacity", 1);
 }
 
-// var zoom = d3.zoom()
-// 	.on("zoom",function() {
-// 		// g.attr("transform","translate("+
-// 		// 	d3.event.translate.join(",")+")scale("+d3.event.scale+")");
-// 		// g.selectAll("path")
-// 		// 	.attr("d", path.projection(projection));
-// 	});
+function onFlowLegendClick(){
+	return console.log("yay")
+	d3.selectAll(".bar_chart")
+		.style("stroke-opacity", 0.2)
+		.style("fill-opacity", 0.2);
 
+	d3.selectAll("#bar_" + d.id)
+		.style("stroke-opacity", 1)
+		.style("fill-opacity", 1);
+}
 
-
-
-
+// Load Data
 var promises = [
 	d3.json("data/worldcountries.json"),
 	d3.json("data/flows.json"),
 	d3.json("data/stackDataPrepared.json"),
-	d3.json("data/sankey_data.json")
+	d3.json("data/sankey_data.json"),
+	d3.csv("data/beneficiary.csv")
+
 ];
 Promise.all(promises).then(ready);
 
-function ready([topo, flows, stack, graph]) {
+function ready([topo, flows, stack, graph, choropleth]) {
 	continentFlows = {
 		"nodes": [],
 		"links": []
@@ -154,39 +156,36 @@ function ready([topo, flows, stack, graph]) {
 	snkdata = {
 		"continent": continentFlows, "country": countryFlows
 	};
-	//graph ;
+
+
+
+	// Draw the map
+	// var mapG = svg.append("g")
+	// 	// .attr("transform", "translate(-50,20)")
+	// 	.selectAll("path")
+	// 	.data(topojson.feature(topo, topo.objects.countries).features)
+	// 	.enter()
+	// 	.append("path")
+	// 	.attr("id", function(d){return "path_" + d.id})
+	// 	.attr("class", "mapBackground")
+	// 	// draw each country
+	// 	.attr("d", d3.geoPath()
+	// 	   .projection(projection)
+	// 	)
+	// 	.on("click", onMapClick)
+	// 	.on("mousemove", onMouseMove)
+	// 	.on('mouseover', highlightCountry)
+	// 	.on('mouseout', clearHighlight);
+
 	var zoom = d3.zoom()
 		.scaleExtent([1, 8])
 		.on("zoom", zoomed);
 
-	// Draw the map
-
-	function render() {
-
-	}
-	var map = svg.append("g")	
-		.selectAll("path")
-		.data(topojson.feature(topo, topo.objects.countries).features)
-		.enter()
-		.append("path")
-		.attr("id", function(d){return "path_" + d.id})
-		.attr("class", "mapBackground")
-		// draw each country
-		.attr("d", d3.geoPath()
-		   .projection(projection)
-		)
-		.on("click", onMapClick)
-		.on("mousemove", onMouseMove)
-		.on('mouseover', highlightCountry)
-		.on('mouseout', clearHighlight);
-
-	map.call(zoom);
-
+	// mapG.call(zoom);
 
 	function zoomed() {
 		var transform = d3.event.transform;
-
-		svg.style("stroke-width", 1.5 / transform.k + "px");
+		svg.style("stroke-width", 1.9 / transform.k + "px");
 		svg.attr("transform", transform);
 	}
 
@@ -220,6 +219,26 @@ function ready([topo, flows, stack, graph]) {
 			else if(d == "fp-pf") return "#a3a0fb";
 			else return "#f00314";
 		});
+
+	function renderFlow() {
+		// Draw the map
+		var mapG = svg.append("g")
+			// .attr("transform", "translate(-50,20)")
+			.selectAll("path")
+			.data(topojson.feature(topo, topo.objects.countries).features)
+			.enter()
+			.append("path")
+			.attr("id", function(d){return "path_" + d.id})
+			.attr("class", "mapBackground")
+			// draw each country
+			.attr("d", d3.geoPath()
+			   .projection(projection)
+			)
+			.on("click", onMapClick)
+			.on("mousemove", onMouseMove)
+			.on('mouseover', highlightCountry)
+			.on('mouseout', clearHighlight);
+
 	var center = svg.append("g")
 		.selectAll("circle")
 		.data(flows).enter().append("g");
@@ -235,7 +254,20 @@ function ready([topo, flows, stack, graph]) {
 		.attr("cy", function(d){
 			return projection(d.country.origin)[1];
 		});
-	
+	center.append("circle")
+		.attr("class", "control")
+		.attr("r", 7)
+		.attr("fill", "none")
+		.attr("stroke", "green")
+		.attr("stroke-width", 2)
+		.attr("cx", function(d){
+			return projection(d.country.destination)[0];
+		})
+		.attr("cy", function(d){
+			return projection(d.country.destination)[1];
+		});
+
+
 	line = d3.line();
 	var arcs = svg.append("g").attr("id", "arcs");	
 	arcNodes = arcs.selectAll("path.lines")
@@ -257,7 +289,7 @@ function ready([topo, flows, stack, graph]) {
 			if((d.country.beneficiary_typefrom == "p" && d.country.beneficiary_typeto == "m") | ((d.country.beneficiary_typefrom == "m" && d.country.beneficiary_typeto == "p"))) return "#00bcd4";
 			else if((d.country.beneficiary_typefrom == "f" && d.country.beneficiary_typeto == "p") | ((d.country.beneficiary_typefrom == "p" && d.country.beneficiary_typeto == "f"))) return "#a3a0fb";
 			else return "#f00314";
-		})		
+		})
 		.attr('d', function(d) {
 			return createArcs(line([projection(d.country.origin), projection(d.country.destination)]));
 		});
@@ -279,6 +311,100 @@ function ready([topo, flows, stack, graph]) {
 		return d.country.fromName+" -> "+d.country.toName+"\n" + d.value +"% share" + "\n" + beneficiarytypefrom + " -> " + beneficiarytypeto;
 	});
 
+
+	mapkeys = ["Resource to Processing","Fleet to Processing", "Processing to Market"]
+	var colorScale = d3.scaleOrdinal()
+		.range(["#00bcd4", "#a3a0fb", "#f00314"])
+		.domain(mapkeys);
+
+	var mapFlowlegend = svg.selectAll(".legend")
+		.data(mapkeys.slice())
+		.enter().append("g")
+		.attr("class", "legend")
+		.attr("transform", function(d, i) { return "translate(0," + i * 20 + ")"; });
+
+	var mapL = mapFlowlegend.append('g')
+		.attr("transform", "translate(1000,260)");
+
+		mapL.append("rect")
+			.attr("x", -18)
+			.attr("width", 15)
+			.attr("height", 15)
+			.style("fill", function(d){return colorScale(d)});
+
+		mapL.append("text")
+			.attr("x", -24)
+			.attr("y", 9)
+			.attr("dy", ".35em")
+			.style("text-anchor", "end")
+			.text(function(d) {return d});
+			// .on("click", function(d){
+			// 	d3.selectAll("arcNodes")
+			// 		.style("stroke-opacity", 0.1)
+			// 		.style("fill-opacity", 0.1);
+			//
+			// 	return console.log("yay")} );
+
+	};
+
+	function renderResource() {
+
+		console.log(choropleth[0].id)
+		const choroplethData = choropleth.reduce((accumulator, d) =>{
+			accumulator[d.perc_processing] = d;
+			return accumulator;
+		}, {});
+
+		const countries = topojson.feature(topo, topo.objects.countries);
+		countries.features.forEach(d => {
+			Object.assign(d.properties, choroplethData[d.id]);
+		})
+		// var colorScheme = d3.schemeReds[6];
+		// colorScheme.unshift("#eee")
+		// var colorScale = d3.scaleThreshold()
+		// 	.domain([1, 3, 6, 9, 12, 15])
+		// 	.range(colorScheme);
+
+		// choropl = d3.csv("data/beneficiary.csv",function(d) { data.set(d.code, +d.perc_processing)});
+
+		console.log(countries.features)
+
+		var mapG = svg.append("g")
+			.selectAll("path")
+			.data(countries.features )
+			.enter()
+			.append("path")
+			.attr("id", function(d){return "path_" + d.id})
+			// .attr("class", "mapBackground")
+			// draw each country
+			.attr("d", d3.geoPath()
+			   .projection(projection))
+			.attr("fill", "red")
+			.on("click", onMapClick)
+			.on("mousemove", onMouseMove)
+			.on('mouseover', highlightCountry)
+			.on('mouseout', clearHighlight)
+			.text(d => d.properties);
+
+		// 	// .attr("d", path);
+		// mapG.selectAll("path")
+		// 	.data(choropleth, function(d) { data.set(d.code, +d.perc_processing); })
+		// 	.enter()
+		// 	.append("path")
+		// 	.attr("fill", function (d){
+		// 		// Pull data for this country
+		// 		d.perc_processing = data.get(d.id) || 0;
+		// 		// Set the color
+		// 		return colorScale(d.perc_processing)});
+
+
+
+
+	};
+
+	// renderResource()
+	renderFlow()
+
 	//Bar Chart
 	
 	const div = document.getElementById('barDiv'); /* Reference to the bar chart container */
@@ -294,8 +420,6 @@ function ready([topo, flows, stack, graph]) {
 		d.total = d3.sum(keys, k => +d[k])
 		return d
 	});
-
-
 
 	barchart = barDiv.append("svg")
 		.attr("viewBox", `0 0 ${width + margin.left + margin.right} ${height + margin.top + margin.bottom}`)
@@ -318,7 +442,7 @@ function ready([topo, flows, stack, graph]) {
 		
 	var yAxis = barchart.append("g")
 		.attr("transform", 'translate(0,0)')
-		.attr("class", "y-axis")
+		.attr("class", "y-axis");
 
 	var z = d3.scaleOrdinal()
 		.range(["#00bcd4", "#55d8fe", "#ff8373"])
@@ -330,8 +454,6 @@ function ready([topo, flows, stack, graph]) {
 	x.domain(stack.map(d => d.code	));
 
 	// var xAxistick = x.domain(stack.map(d => d.name	));
-
-
 
 	barchart.selectAll(".x-axis")
 		.transition().duration(speed)
@@ -360,7 +482,6 @@ function ready([topo, flows, stack, graph]) {
 			.attr("id", "yaxis_label")
 			.attr("x",-height/2)
 			.attr("y", -40)
-			// .attr("transform", "rotate(-90)")
 			.style("fill", "#404040")
 			.style("font-size", "13px")
 			.style("font-weight", 400)
@@ -436,7 +557,11 @@ function ready([topo, flows, stack, graph]) {
 			.style("stroke-width", 2)
 			.style("fill-opacity", 0.9);
 		/* display tooltip including some record data */
-        barTooltip.html('<b>'+record.data.name + '</b><br />');
+
+        barTooltip.html('<div>Country: '+ record.data.name + '</div>' +
+			'<div> Resource Dist: ' + record.data['Resource Owner'] + ' %<div />'+
+			'<div> Fleet Dist: ' + record.data['Fleet Owner'] + ' %<div />'+
+			'<div> Processing Dist: ' + record.data['Processing'] + ' %<div />');
         barTooltip.transition()
 			.duration(50)
 			.style("display", "block")
