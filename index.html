@@ -1,0 +1,152 @@
+
+<!doctype html>
+<html lang="en">
+  <head>
+  	<title>WCPO</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800,900" rel="stylesheet">
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+	<link rel="stylesheet" href="css/sidebar.css">
+    <link rel="stylesheet" href="css/main.css">
+  	<script src="https://kit.fontawesome.com/cff7626dc9.js" crossorigin="anonymous"></script>
+  </head>
+
+  <body>
+  <div class="page-content">
+	  <!--Page header title-->
+	  <header style="background-color: #FFFFFF">
+	  <h4 > WCPO Web Mapping Application </h4>
+	  </header>
+	  <div id="beneficiarybtn">
+		  <button id ="overview" class="btn active">Overview</button>
+		  <button id ="resource" class="btn">Resource</button>
+		  <button id="fleet" class="btn">Fleet</button>
+		  <button id="process" class="btn">Processing</button>
+		  <button id="retail" class="btn">Retail</button>
+	  </div>
+
+	  <!--End of title-->
+
+	  <!--Content wrapper-->
+	  <div class="wrapper d-flex align-items-stretch">
+
+		<!--Sidebar navigation-->
+		<nav id="sidebar" class="active">
+			<div class="custom-menu" style="">
+				<button type="button" id="sidebarCollapse" class="sidebtn" >
+					<i class="fa fa-bars"></i>
+					<i class="fa fa-caret-left fa-hide" ></i>
+					<span class="sr-only">Toggle Menu</span>
+				</button>
+			</div>
+			<div class="">
+				<div class="row">
+					<div class="side-navigation col-2">
+						<div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+
+							<a class="nav-link active" id="v-pills-about-tab" data-toggle="pill" href="#v-pills-about" role="tab" aria-controls="v-pills-about" aria-selected="true"><i class="fa fa-bars active"></i></a>
+							<a class="nav-link" id="v-pills-legend-tab" data-toggle="pill" href="#v-pills-legend" role="tab" aria-controls="v-pills-legend" aria-selected="false"><i class="fas fa-layer-group" ></i></a>
+							<a class="nav-link" id="v-pills-search-tab" data-toggle="pill" href="#v-pills-search" role="tab" aria-controls="v-pills-search" aria-selected="false"><i class="fa fa-search"></i></a>
+							<a class="nav-link" id="v-pills-data-tab" data-toggle="pill" href="#v-pills-data" role="tab" aria-controls="v-pills-data" aria-selected="false"><i class="fas fa-file-alt"></i></a>
+							<a class="nav-link" id="v-pills-info-tab" data-toggle="pill" href="#v-pills-info" role="tab" aria-controls="v-pills-info" aria-selected="false"><i class="far fa-question-circle"></i></a>
+							<a class="nav-link" id="v-pills-help-tab" data-toggle="pill" href="#v-pills-help" role="tab" aria-controls="v-pills-help" aria-selected="false"><i class="fas fa-info-circle"></i></a>
+						</div>
+					</div>
+
+					<div class="side-content col-9">
+						<div class="tab-content" id="v-pills-tabContent">
+							<!--About-->
+							<div class="tab-pane fade show active" id="v-pills-about" role="tabpanel" aria-labelledby="v-pills-about-tab">
+
+								<h2 class="leaflet-sidebar-header title">WCPO About layout </h2>
+								<p>WCPO About layout here</p>
+							</div>
+
+							<!--Legend Panel-->
+							<div class="tab-pane fade" id="v-pills-legend" role="tabpanel" aria-labelledby="v-pills-legend-tab">
+								<h2 class="leaflet-sidebar-header title">Legend</h2>
+								<p>	<code>Leaflet.control.sidebar({ autopan: true })</code>
+									makes sure that the map center always stays visible.
+								</p>
+								<p>
+									The autopan behviour is responsive as well.
+									Try opening and closing the sidebar from this pane!
+								</p>
+							</div>
+
+							<!--Search Panel-->
+							<div class="tab-pane fade" id="v-pills-search" role="tabpanel" aria-labelledby="v-pills-search-tab">
+								<h2 class="leaflet-sidebar-header title">Search</h2>
+							</div>
+
+							<!--Data Panel-->
+							<div class="tab-pane fade" id="v-pills-data" role="tabpanel" aria-labelledby="v-pills-data-tab">
+								<h2 class="leaflet-sidebar-header title">Data</h2>
+							</div>
+							<!--Info Panel-->
+							<div class="tab-pane fade" id="v-pills-info" role="tabpanel" aria-labelledby="v-pills-info-tab">
+								<h2 class="leaflet-sidebar-header title">Info</h2>
+							</div>
+							<!--Help Panel-->
+							<div class="tab-pane fade" id="v-pills-help" role="tabpanel" aria-labelledby="v-pills-help-tab">
+								<h2 class="leaflet-sidebar-header title">Help</h2>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</nav>
+		<!--End of sidebar navigation panel-->
+
+
+        <!-- Main Page Visualization Content  -->
+		<div id="content" class="p-4 p-md-5 pt-5" style="padding-top: 0px !important; padding-left: 2rem !important; padding-right: 1rem !important; padding-bottom: 2px !important;">
+			<div class="row mapBRow" style="height: 60%; margin-bottom: 2px;">
+				<div class="col-lg-8" style="height: 100%; padding-right: 1px">
+					<!--Map-->
+					<div id="mapDiv" style="height: 100%; background-color: #FFFFFF; margin-bottom: 0px; width: 100%">
+						<button id="zoom-in">+</button>
+						<button id="zoom-out">-</button>
+
+					</div>
+				</div>
+				<div class="col-lg-4" style="height: 100%; padding-left: 5px">
+					<!--Graph-->
+					<div id="barDiv" style="height:100%; background-color: #FFFFFF; margin-bottom: 0px; width:100%; float:right">
+					</div>
+				</div>
+			</div>
+
+			<!--Sankey Diagram-->
+			<div class="row sankeyRow" style="height: 40%;">
+				<div class="col-lg-12">
+					<div id="sankeyDiv" style="height: 100%; background-color: #FFFFFF; width: 100%">
+					</div>
+				</div>
+			</div>
+		</div>
+		<!--End of Visualization content-->
+
+	</div>
+  </div>
+
+	<!--Scripts-->
+    <script src="lib/jquery.min.js"></script>
+    <script src="lib/popper.js"></script>
+    <script src="lib/bootstrap.min.js"></script>
+    <script src="lib/sidebar.js"></script>
+    <script src="js/beneficiaryswitch.js"></script>
+	<script src="https://d3js.org/d3.v5.min.js"></script>
+	<script src="https://unpkg.com/topojson@3"></script>
+	<script src="https://unpkg.com/d3-array@1"></script>
+	<script src="https://unpkg.com/d3-collection@1"></script>
+	<script src="https://unpkg.com/d3-path@1"></script>
+	<script src="https://unpkg.com/d3-shape@1"></script>
+	<script src="https://unpkg.com/d3-sankey@0"></script>
+	<script src="js/utils.js"></script>
+	<script src="js/main.js"></script>
+
+
+  </body>
+</html>
