@@ -1,0 +1,41 @@
+Origin,orig_countCode,countrycode,orig_contcode,Destination,countrydestcode,dest_countCode,dest_contCode,Value_share,StepFrom,StepTo,O,D
+ Korea ,KOR55,18,CU03,Korea ,18,KOR55,CU03,100,2,3,p,m
+Thailand,THA42,23,CU03,Australia,,AUS225,CU06,6,2,3,p,m
+Thailand,THA42,23,CU03,Canada,,CAN202,CU05,6,2,3,p,m
+China,CHN195,2,CU03,China,2,CHN195,CU03,19,1,2,f,p
+ Ecuador ,ECU177,4,CU08,EU,21,,CU04,70,2,3,p,m
+ Indonesia ,IDN143,8,CU03,EU,21,,CU04,30,2,3,p,m
+Philippines,PHL80,17,CU03,EU,21,,CU04,60,2,3,p,m
+Thailand,THA42,23,CU03,EU,21,,CU04,15,2,3,p,m
+ Vietnam ,VNM3,28,CU03,EU,21,,CU04,50,2,3,p,m
+PNG,PNG83,16,CU06,EU,21,ESP54,CU04,80,0,2,fr,p
+Indonesia,IDN143,8,CU03,Indonesia,8,IDN143,CU03,81,0,2,fr,p
+Japan,JPN135,9,CU03,Japan,9,JPN135,CU03,95,2,3,p,m
+Thailand,THA42,23,CU03,Japan,9,JPN135,CU03,5,2,3,p,m
+Japan,JPN135,9,CU03,Japan,9,JPN135,CU03,90,0,2,fr,p
+Taiwan,TWN45,22,CU03,Japan,9,JPN135,CU03,5,0,2,fr,p
+Korea,KOR55,18,CU03,Korea,18,KOR55,CU03,0,0,2,fr,p
+ Ecuador ,ECU177,4,CU08,Latin America,26,,CU08,10,2,3,p,m
+United States,USA16,26,CU05,Latin America,26,USA16,CU08,0,0,2,fr,p
+ Indonesia ,IDN143,8,CU03,Middle East,,,CU03,30,2,3,p,m
+Thailand,THA42,23,CU03,Middle East,,,CU03,12,2,3,p,m
+Philippines,PHL80,17,CU03,Philippines,17,PHL80,CU03,0,0,2,fr,p
+Philippines,PHL80,17,CU03,PNG,16,PNG83,CU06,0,0,2,fr,p
+PNG,PNG83,16,CU06,PNG,16,PNG83,CU06,20,0,2,fr,p
+RMI,PNG83,12,CU06,RMI,12,MHL10,CU06,0,0,2,fr,p
+China,CHN195,2,CU03,Thailand,23,THA42,CU03,81,1,2,f,p
+Indonesia,IDN143,8,CU03,Thailand,23,THA42,CU03,19,0,2,fr,p
+Japan,JPN135,9,CU03,Thailand,23,THA42,CU03,10,0,2,fr,p
+Kiribati,KIR131,10,CU06,Thailand,23,THA42,CU03,0,0,2,fr,p
+Korea,KOR55,18,CU03,Thailand,23,THA42,CU03,0,0,2,fr,p
+Philippines,PHL80,17,CU03,Thailand,23,THA42,CU03,15,0,2,fr,p
+RMI,PNG83,12,CU06,Thailand,23,THA42,CU03,0,1,2,f,p
+Spain,ESP54,21,CU04,Thailand,23,THA42,CU03,0,1,2,f,p
+Taiwan,TWN45,22,CU03,Thailand,23,THA42,CU03,95,0,2,fr,p
+United States,USA16,26,CU05,Thailand,23,THA42,CU03,0,0,2,fr,p
+Vanuatu,VUT6,27,CU06,Thailand,23,THA42,CU03,0,1,2,f,p
+ Ecuador ,ECU177,4,CU08,US,26,,CU05,20,2,3,p,m
+ Indonesia ,IDN143,8,CU03,US,26,,CU05,30,2,3,p,m
+ Vietnam ,VNM3,28,CU03,US,26,,CU05,50,2,3,p,m
+Philippines,PHL80,17,CU03,US (North America),26,,CU05,10,2,3,p,m
+Thailand,THA42,23,CU03,US (North America),26,,CU05,23,2,3,p,m

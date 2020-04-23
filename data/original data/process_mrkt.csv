@@ -1,0 +1,19 @@
+Origin,orig_countryCode,orig_contCode,Destination,dest_countryCode,dest_contCode,Value_share,StepFrom,StepTo,O,D
+ Ecuador ,ECU177,CU08,EU,,CU04,70,2,3,p,m
+ Ecuador ,ECU177,CU08,US,,CU05,20,2,3,p,m
+ Ecuador ,ECU177,CU08,Latin America,,CU08,10,2,3,p,m
+ Indonesia ,IDN143,CU03,EU,,CU04,30,2,3,p,m
+ Indonesia ,IDN143,CU03,US,,CU05,30,2,3,p,m
+ Indonesia ,IDN143,CU03,Middle East,,CU03,30,2,3,p,m
+Japan,JPN135,CU03,Japan,JPN135,CU03,95,2,3,p,m
+ Korea ,KOR55,CU03, Korea ,KOR55,CU03,100,2,3,p,m
+Philippines,PHL80,CU03,EU,,CU04,60,2,3,p,m
+Philippines,PHL80,CU03,US (North America),,CU05,10,2,3,p,m
+Thailand,THA42,CU03,US (North America),,CU05,23,2,3,p,m
+Thailand,THA42,CU03,EU,,CU04,15,2,3,p,m
+Thailand,THA42,CU03,Middle East,,CU03,12,2,3,p,m
+Thailand,THA42,CU03,Australia,AUS225,CU06,6,2,3,p,m
+Thailand,THA42,CU03,Canada,CAN202,CU05,6,2,3,p,m
+Thailand,THA42,CU03,Japan,JPN135,CU03,5,2,3,p,m
+ Vietnam ,VNM3,CU03,US,,CU05,50,2,3,p,m
+ Vietnam ,VNM3,CU03,EU,,CU04,50,2,3,p,m

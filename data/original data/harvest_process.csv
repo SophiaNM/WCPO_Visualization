@@ -1,0 +1,23 @@
+Origin,orig_countryCode,orig_contCode,Destination,dest_countryCode,dest_contCode,Value_share,StepFrom,StepTo,O,D
+China,CHN195,CU03,China,CHN195,CU03,19,1,2,f,p
+China,CHN195,CU03,Thailand,THA42,CU03,81,1,2,f,p
+Indonesia,IDN143,CU03,Indonesia,IDN143,CU03,81,0,2,fr,p
+Indonesia,IDN143,CU03,Thailand,THA42,CU03,19,0,2,fr,p
+Japan,JPN135,CU03,Japan,JPN135,CU03,90,0,2,fr,p
+Japan,JPN135,CU03,Thailand,THA42,CU03,10,0,2,fr,p
+Kiribati,KIR131,CU06,Thailand,THA42,CU03,0,0,2,fr,p
+Korea,KOR55,CU03,Korea,KOR55,CU03,0,0,2,fr,p
+Korea,KOR55,CU03,Thailand,THA42,CU03,0,0,2,fr,p
+Philippines,PHL80,CU03,Philippines,PHL80,CU03,0,0,2,fr,p
+Philippines,PHL80,CU03,PNG,PNG83,CU06,0,0,2,fr,p
+Philippines,PHL80,CU03,Thailand,THA42,CU03,15,0,2,fr,p
+PNG,PNG83,CU06,EU,,CU04,80,0,2,fr,p
+PNG,PNG83,CU06,PNG,PNG83,CU06,20,0,2,fr,p
+RMI,PNG83,CU06,RMI,MHL10,CU06,0,0,2,fr,p
+RMI,PNG83,CU06,Thailand,THA42,CU03,0,1,2,f,p
+Spain,ESP54,CU04,Thailand,THA42,CU03,0,1,2,f,p
+Taiwan,TWN45,CU03,Japan,JPN135,CU03,5,0,2,fr,p
+Taiwan,TWN45,CU03,Thailand,THA42,CU03,95,0,2,fr,p
+United States,USA16,CU05,Latin America,,CU08,0,0,2,fr,p
+United States,USA16,CU05,Thailand,THA42,CU03,0,0,2,fr,p
+Vanuatu,VUT6,CU06,Thailand,THA42,CU03,0,1,2,f,p

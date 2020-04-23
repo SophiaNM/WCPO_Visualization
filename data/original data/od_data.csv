@@ -1,0 +1,41 @@
+Origin,orig_countCode,orig_contCode,Destination,dest_countCode,dest_contCode,Value_share,StepFrom,StepTo,O,D
+ Ecuador ,ECU177,CU08,EU,,CU04,70.00,2,3,p,m
+ Ecuador ,ECU177,CU08,US,,CU05,20.00,2,3,p,m
+ Ecuador ,ECU177,CU08,Latin America,,CU08,10.00,2,3,p,m
+ Indonesia ,IDN143,CU03,EU,,CU04,30.00,2,3,p,m
+ Indonesia ,IDN143,CU03,US,,CU05,30.00,2,3,p,m
+ Indonesia ,IDN143,CU03,Middle East,,CU03,30.00,2,3,p,m
+Japan,JPN135,CU03,Japan,JPN135,CU03,95.00,2,3,p,m
+ Korea ,KOR55,CU03, Korea ,KOR55,CU03,100.00,2,3,p,m
+Philippines,PHL80,CU03,EU,,CU04,60.00,2,3,p,m
+Philippines,PHL80,CU03,US (North America),,CU05,10.00,2,3,p,m
+Thailand,THA42,CU03,US (North America),,CU05,23.00,2,3,p,m
+Thailand,THA42,CU03,EU,,CU04,15.00,2,3,p,m
+Thailand,THA42,CU03,Middle East,,CU03,12.00,2,3,p,m
+Thailand,THA42,CU03,Australia,AUS225,CU06,6.00,2,3,p,m
+Thailand,THA42,CU03,Canada,CAN202,CU05,6.00,2,3,p,m
+Thailand,THA42,CU03,Japan,JPN135,CU03,5.00,2,3,p,m
+ Vietnam ,VNM3,CU03,US,,CU05,50.00,2,3,p,m
+ Vietnam ,VNM3,CU03,EU,,CU04,50.00,2,3,p,m
+China,CHN195,CU03,China,CHN195,CU03,19.00,1,2,f,p
+China,CHN195,CU03,Thailand,THA42,CU03,81.00,1,2,f,p
+Indonesia,IDN143,CU03,Indonesia,IDN143,CU03,81.00,0,2,fr,p
+Indonesia,IDN143,CU03,Thailand,THA42,CU03,19.00,0,2,fr,p
+Japan,JPN135,CU03,Japan,JPN135,CU03,90.00,0,2,fr,p
+Japan,JPN135,CU03,Thailand,THA42,CU03,10.00,0,2,fr,p
+Kiribati,KIR131,CU06,Thailand,THA42,CU03,0.00,0,2,fr,p
+Korea,KOR55,CU03,Korea,KOR55,CU03,0.00,0,2,fr,p
+Korea,KOR55,CU03,Thailand,THA42,CU03,0.00,0,2,fr,p
+Philippines,PHL80,CU03,Philippines,PHL80,CU03,0.00,0,2,fr,p
+Philippines,PHL80,CU03,PNG,PNG83,CU06,0.00,0,2,fr,p
+Philippines,PHL80,CU03,Thailand,THA42,CU03,15.00,0,2,fr,p
+PNG,PNG83,CU06,EU,,CU04,80.00,0,2,fr,p
+PNG,PNG83,CU06,PNG,PNG83,CU06,20.00,0,2,fr,p
+RMI,PNG83,CU06,RMI,MHL10,CU06,0.00,0,2,fr,p
+RMI,PNG83,CU06,Thailand,THA42,CU03,0.00,1,2,f,p
+Spain,ESP54,CU04,Thailand,THA42,CU03,0.00,1,2,f,p
+Taiwan,TWN45,CU03,Japan,JPN135,CU03,5.00,0,2,fr,p
+Taiwan,TWN45,CU03,Thailand,THA42,CU03,95.00,0,2,fr,p
+United States,USA16,CU05,Latin America,,CU08,0.00,0,2,fr,p
+United States,USA16,CU05,Thailand,THA42,CU03,0.00,0,2,fr,p
+Vanuatu,VUT6,CU06,Thailand,THA42,CU03,0.00,1,2,f,p
