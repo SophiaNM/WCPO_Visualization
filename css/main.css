@@ -21,8 +21,9 @@ header{
     margin-bottom: 5px;
 }
 header h4{
-    line-height: 3;
-    text-indent: 20px;
+    line-height: 2.7;
+    text-indent: 25px;
+    font-size: 20px;
 }
 /*header end*/
 
@@ -87,8 +88,8 @@ nav#sidebar.active div.custom-menu{
     margin-right: 0px;
     margin-top: 15px;
     border: 0px;
-    background: #2196f3;
-    width: 30px;
+    background: #007bff;
+    width: 20px;
 }
 #sidebar.active .sidebtn{
     margin-right: -10px;
@@ -139,7 +140,7 @@ nav#sidebar #sidebarCollapse i.fa.fa-bars{
     font-size: 18px;
 }
 #v-pills-tab i{
-    font-size: 19px;
+    font-size: 16px;
 }
 #sidebar.active i.fa-caret-left{
     display: none;
@@ -152,9 +153,9 @@ nav#sidebar.active #sidebarCollapse i.fa.fa-bars{
 }
 
 a{
-    width: 45px;
-    height: 45px;
-    color: #2196f3;
+    width: 40px;
+    height: 40px;
+    color: #007bff;
 }
 i{
     width: 100%;
@@ -168,15 +169,25 @@ i{
 }
 /*sidebar content*/
 #sidebar .title{
-    font-size: 15px;
-    background: #2196f3;
-    width: 275px;
+    font-size: 13px;
+    background: #007bff;
+    width: 280px;
     position: absolute;
-    left: 1px;
-    height: 45px;
+    left: -4px;
+    height: 40px;
     line-height: 3em;
     text-indent: 16px;
     color: #fff;
+}
+.side-content{
+    padding: 0px;
+}
+.sidenavContent{
+    color: #7f838a;
+    font-size: 10px;
+    padding-top: 50px;
+    padding-left: 5px;
+    text-align: justify;
 }
 /*sidebar end*/
 
@@ -190,7 +201,7 @@ i{
     stroke-linejoin: round;
 }
 .mapBackground {
-	fill: #e3e5f0;
+	fill: #ecf0ff;
 	stroke: #fff;
     stroke-width: 1px;
 	
@@ -210,6 +221,9 @@ i{
     fill: #ecf0ff;
     stroke: #fff;
     stroke-width: 1px;
+}
+.choroplethHighlight:hover{
+    fill: #28aff4;
 }
 .choroplethLegend {
 	position: absolute;

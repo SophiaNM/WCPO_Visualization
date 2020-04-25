@@ -109,7 +109,7 @@ function onFlowLegend(d){
 	// }
 	// else if ( d === "Resource to Processing"){}
 	// else {}
-	return console.log("yay")
+	console.log(d)
 }
 
 
@@ -250,7 +250,7 @@ function ready([topo, flows, stack, graph, topoChoropleth, beneficiaryData]) {
 			.attr("id", "circles");;
 		center.append("circle")
 			.attr("class", "control")
-			.attr("r", 7)
+			.attr("r", 6)
 			.attr("fill", "none")
 			.attr("stroke", "darkblue")
 			.attr("stroke-width", 2)
@@ -262,7 +262,7 @@ function ready([topo, flows, stack, graph, topoChoropleth, beneficiaryData]) {
 			});
 		center.append("circle")
 			.attr("class", "control")
-			.attr("r", 7)
+			.attr("r", 6)
 			.attr("fill", "none")
 			.attr("stroke", "green")
 			.attr("stroke-width", 2)
@@ -281,7 +281,7 @@ function ready([topo, flows, stack, graph, topoChoropleth, beneficiaryData]) {
 			.append("path")
 			.attr("class", "lines linesMovement")
 			.attr("stroke-width", function(d) {
-				return 0.07 * d.value;
+				return 0.06 * d.value;
 			})
 			/*.attr('marker-end', function(d){
 				if((d.country.beneficiary_typefrom == "p" && d.country.beneficiary_typeto == "m") | ((d.country.beneficiary_typefrom == "m" && d.country.beneficiary_typeto == "p"))) return "url(#arrow-pm-mp)";
@@ -298,7 +298,7 @@ function ready([topo, flows, stack, graph, topoChoropleth, beneficiaryData]) {
 			})
 			.attr("stroke", function(d){
 				if((d.country.beneficiary_typefrom == "p" && d.country.beneficiary_typeto == "m") | ((d.country.beneficiary_typefrom == "m" && d.country.beneficiary_typeto == "p"))) return "#00bcd4";
-				else if((d.country.beneficiary_typefrom == "f" && d.country.beneficiary_typeto == "p") | ((d.country.beneficiary_typefrom == "p" && d.country.beneficiary_typeto == "f"))) return "#a3a0fb";
+				else if((d.country.beneficiary_typefrom == "f" && d.country.beneficiary_typeto == "p") | ((d.country.beneficiary_typefrom == "p" && d.country.beneficiary_typeto == "f"))) return "#a175fb";
 				else return "#f00314";
 			})
 			.attr('d', function(d) {
@@ -326,7 +326,7 @@ function ready([topo, flows, stack, graph, topoChoropleth, beneficiaryData]) {
 		// Defining flow map legend
 		mapkeys = ["Resource to Processing","Fleet to Processing", "Processing to Market"]
 		var colorScale = d3.scaleOrdinal()
-			.range(["#00bcd4", "#a3a0fb", "#f00314"])
+			.range(["#00bcd4", "#a175fb", "#f00314"])
 			.domain(mapkeys);
 
 		var Leg = svg.append("g").attr("id","mapLegend")
@@ -375,30 +375,38 @@ function ready([topo, flows, stack, graph, topoChoropleth, beneficiaryData]) {
 		var countries = topojson.feature(topo, topo.objects.countries);
 		var countryName = beneficiaryData.reduce((accumulator, d) =>{accumulator[d.id] = d;return accumulator;}, {});
 		countries.features.forEach(d => {	Object.assign(d.properties, countryName[d.id]);});
+		console.log(countryName)
 
 		// Choropleth Color Scheme
-		var colorValue = d => d.properties.perc_resource;
+
 		var colorScheme = d3.schemeBlues[6];
 			colorScheme.unshift("#ecf0ff")
 		var colorScale
+		var colorValue
+		var catchValue
+		var dollarValue
 
 		if (beneficiaryType === "resource"){
 			colorValue = d => d.properties.perc_resource;
+			catchValue = d => d.properties.resource_catch;
 			colorScale = d3.scaleThreshold()
 				.domain([0.01, 1, 4, 10, 15, 20])
 				.range(colorScheme);
 		}
 		else if (beneficiaryType === "fleet") {
 			colorValue = d => d.properties.perc_fleet;
+			catchValue = d => d.properties.fleet_catch;
 			colorScale = d3.scaleThreshold()
 				.domain([1, 3, 6, 9, 12, 15])
 				.range(colorScheme);
 		}
 		else if (beneficiaryType === "processing") {
+			colorValue = d => d.properties.perc_processing;
+			catchValue = d => d.properties.processing_weight;
 			colorScale = d3.scaleThreshold()
 				.domain([1, 3, 6, 8, 10, 12])
 				.range(colorScheme);
-			colorValue = d => d.properties.perc_processing;
+
 		}
 
 		//Loading choropleth  map
@@ -408,6 +416,7 @@ function ready([topo, flows, stack, graph, topoChoropleth, beneficiaryData]) {
 			.data(countries.features)
 			.enter()
 			.append("path")
+			.attr("class", "choroplethHighlight")
 			.attr("d", d3.geoPath()
 				.projection(projection)	)
 			.attr("fill", d => (colorValue(d) === undefined )
@@ -415,12 +424,10 @@ function ready([topo, flows, stack, graph, topoChoropleth, beneficiaryData]) {
 				: colorScale(colorValue(d)))
 			.attr("stroke", 2)
 			.append('title')
-			.text(`${d => d}%Share`)
-			.exit().remove()
-			.on("click", onMapClick)
-			.on("mousemove", onMouseMove)
-			// .on('mouseover', highlightCountry)
-			.on('mouseout', clearHighlight);
+			.text(d => (colorValue(d) === undefined )
+				? idToName(d.id) + "\nMissing Data"
+				: d.properties.country_name +"\n"+"Share Distribution: " + colorValue(d) + "%\n" + "Tuna Weight: " + catchValue(d)+ " mT"   )
+			.exit().remove();
 
 		// Choropleth Legend
 		var x = d3.scaleSqrt()
@@ -530,6 +537,7 @@ function ready([topo, flows, stack, graph, topoChoropleth, beneficiaryData]) {
 	x.domain(stack.map(d => d.code	));
 
 	// var xAxistick = x.domain(stack.map(d => d.name	));
+	xAxisTickFormat = number => (number).replace(number,x.domain(stack.map(d => d.code)))
 
 	barchart.selectAll(".x-axis")
 		.transition().duration(speed)
@@ -540,6 +548,7 @@ function ready([topo, flows, stack, graph, topoChoropleth, beneficiaryData]) {
 		.attr("dy", ".35em")
 		.attr("transform", "rotate(90)")
 		.style("text-anchor", "start");
+		// .text( d => d.id);
 
 	barchart
 
@@ -601,14 +610,14 @@ function ready([topo, flows, stack, graph, topoChoropleth, beneficiaryData]) {
 
 	text.exit().remove()
 
-	text.enter().append("text")
-		.attr("class", "text")
-		.attr("text-anchor", "middle")
-		.merge(text)
-		.transition().duration(speed)
-		.attr("x", d => x(d.code) + x.bandwidth() / 2)
-		.attr("y", d => y(d.total) - 5)
-		.text(d => d.total);
+	// text.enter().append("text")
+	// 	.attr("class", "text")
+	// 	.attr("text-anchor", "middle")
+	// 	.merge(text)
+	// 	.transition().duration(speed)
+	// 	.attr("x", d => x(d.code) + x.bandwidth() / 2)
+	// 	.attr("y", d => y(d.total) - 5)
+	// 	.text(d => d.total);
 	
 	var legend = barchart.selectAll(".legend")
 		  .data(keys.slice().reverse())
