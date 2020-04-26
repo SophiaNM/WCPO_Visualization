@@ -189,6 +189,9 @@ i{
     padding-left: 5px;
     text-align: justify;
 }
+#SidebarLegend{
+    height: 300px;
+}
 /*sidebar end*/
 
 
@@ -371,6 +374,6 @@ svg {
     border: 1px solid #000;
     z-index: 10;
 	color: #FFF;
-    font-size: 12 px;
+    font-size: 12px;
 }
 /*end stacked graph*/

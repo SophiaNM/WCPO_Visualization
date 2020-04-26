@@ -3,14 +3,15 @@
 var mapDiv = d3.select("#mapDiv");
 var barDiv = d3.select("#barDiv");
 var sankeyDiv = d3.select("#sankeyDiv");
+var sideLegend = d3.select("#SidebarLegend");
 
 var speed = 300;
-
 var barTooltip = d3.select("body")
 	.append("div")
 	.attr("id", "bar-tooltip")
 	.attr("class", "tooltip");
 
+// Client position
 var positionInfo = document.getElementById('mapDiv').getBoundingClientRect();
 var margin = {top: 45, right: 10, bottom: 20, left: -70};
 var width = positionInfo.width;
@@ -19,11 +20,8 @@ var height = positionInfo.height + margin.bottom;
 
 var main = mapDiv.append("svg")
 	.attr("viewBox", `0 0 ${width} ${height}`);
-    // .attr("width", width)
-    // .attr("height", height);
 var svg = main.append("g")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-
 var mapG = svg.append("g")
 
 // Map and projection
@@ -34,12 +32,13 @@ var projection = d3.geoMercator()
 	.precision(0.1)
 	.center([0, -20 ])
 	.scale(110)
-	.rotate([-160,0]);;
-	  
+	.rotate([-160,0]);
+
 // Data and color scale
 var data = d3.map();
 barTooltip = d3.select("#bar-tooltip");
 
+// Interactive functions
 function highlightCountry(d){
 	d3.selectAll(".bar_chart")
 		.style("stroke-opacity", 0.2)
@@ -59,18 +58,13 @@ function highlightCountry(d){
 		.duration(50)
 		.style("display", "block")
 		.style("opacity", 1);
-}
-
-function highlightChoropleth(d) {
-
-	return console.log("YYaya")
-
-}
+};
 
 function onMouseMove(){
 	barTooltip.style("top", (d3.event.pageY-25)+"px")
 	.style("left", (d3.event.pageX+10)+"px");
-}
+};
+
 function clearHighlight(d){
 	if(d3.select(this).classed('mapBackground') === false){
 		d3.select(this).attr("class", 'mapBackground');
@@ -88,7 +82,8 @@ function clearHighlight(d){
 	barTooltip.transition()
 		.duration(1)
 		.style("display", "none");
-}
+};
+
 function onMapClick(d){
 	d3.selectAll(".bar_chart")
 		.style("stroke-opacity", 0.2)
@@ -97,7 +92,7 @@ function onMapClick(d){
 	d3.selectAll("#bar_" + d.id)
 		.style("stroke-opacity", 1)
 		.style("fill-opacity", 1);
-}
+};
 
 function onFlowLegend(d){
 	// if (d === "Fleet to Processing") {
@@ -112,6 +107,16 @@ function onFlowLegend(d){
 	console.log(d)
 }
 
+var zoom = d3.zoom()
+	.scaleExtent([1, 8])
+	.on("zoom", zoomed);
+function zoomed() {
+	var transform = d3.event.transform;
+	mapG.style("stroke-width", 1.9 / transform.k + "px");
+	mapG.attr("transform", transform);
+}
+d3.select('#zoom-in').on('click', function() {	zoom.scaleBy(mapG.transition().duration(750), 1.3)});
+d3.select('#zoom-out').on('click', function() {zoom.scaleBy(mapG.transition().duration(750), 1 / 1.3)	});
 
 // Load Data
 var promises = [
@@ -169,38 +174,8 @@ function ready([topo, flows, stack, graph, topoChoropleth, beneficiaryData]) {
 	};
 
 
-
-	var zoom = d3.zoom()
-		.scaleExtent([1, 8])
-		.on("zoom", zoomed)
-		;
-
-	// zoom.translate([100,100])
-	// mapG.call(zoom);
-
-	function zoomed() {
-		var transform = d3.event.transform;
-		mapG.style("stroke-width", 1.9 / transform.k + "px");
-		mapG.attr("transform", transform);
-		// svg.selectAll(".exclude-from-zoom").attr("transform", "scale(" + d3.event.scale + ")");
-	}
-
-	d3.select('#zoom-in').on('click', function() {
-		// Smooth zooming
-		zoom.scaleBy(mapG.transition().duration(750), 1.3);
-		// d3.selectAll(".exclude-from-zoom").attr("transform", "scale(" + d3.event.scale + ")");
-	});
-
-	d3.select('#zoom-out').on('click', function() {
-		// Ordinal zooming
-		zoom.scaleBy(mapG.transition().duration(750), 1 / 1.3);
-		// d3.selectAll(".exclude-from-zoom").attr("transform", "scale(" + d3.event.scale + ")");
-	});
-
-
 	var defs = svg.append("svg:defs");
 	var types = ["pm-mp", "fp-pf", "fr"];
-	// see http://apike.ca/prog_svg_patterns.html
 	defs.selectAll("marker").data(types)
 		.join("marker")
 		.attr("id", function(d){ return "arrow-" + d;})
@@ -217,7 +192,20 @@ function ready([topo, flows, stack, graph, topoChoropleth, beneficiaryData]) {
 			else if(d == "fp-pf") return "#a3a0fb";
 			else return "#f00314";
 		});
+	// Sidebar Legend
+	var positionInfo = document.getElementById('SidebarLegend').getBoundingClientRect();
+	var margin = {top: 15, right: 10, bottom: 20, left: 50};
+	var width = positionInfo.width;
+	width = width - margin.left - margin.right;
+	var height = positionInfo.height + margin.bottom;
 
+	var sidebarLegend = sideLegend.append("svg")
+		.attr("viewBox", `0 0 ${width} ${height}`);
+
+
+
+
+	// Draw Flow Map
 	function renderFlow() {
 		// Clear all previous drawn elements
 		d3.selectAll(".choroplethBackground").remove()
@@ -226,6 +214,8 @@ function ready([topo, flows, stack, graph, topoChoropleth, beneficiaryData]) {
 		d3.selectAll("#circles").remove()
 		d3.selectAll(".mapBackground").remove()
 		d3.selectAll("#mapLegend").remove()
+		d3.selectAll("#sideFlowLegend").remove()
+		d3.selectAll("#sideChoroplethLeg").remove()
 
 		// Draw new elements
 		var map = mapG.selectAll("path")
@@ -355,13 +345,47 @@ function ready([topo, flows, stack, graph, topoChoropleth, beneficiaryData]) {
 				.style("text-anchor", "end")
 				.text(function(d) {return d});
 
+		var sideLegendG = sidebarLegend.append("g").attr("id","sideFlowLegend")
+			.attr("transform", "translate(50, 25)");
+
+		var sideLegendG = sideLegendG.selectAll(".legend")
+			.data(mapkeys.slice())
+			.enter().append("g")
+			.attr("class", "legend")
+			.on("click", onFlowLegend)
+			.attr("transform", function(d, i) { return "translate(0," + i * 20 + ")"; });
+
+		sideLegendG = sideLegendG.append('g')
+			.attr("transform", "translate(0,0)");
+
+		sidebarLegend.append("text")
+			.attr("transform", "translate(105,-30)")
+			.attr("x",width/2)
+			.attr("y", 45)
+			.style("fill", "#404040")
+			.style("font-size", "13px")
+			.style("font-weight", 400)
+			.style("text-anchor", "middle")
+			.text("Flow Legend Beneficiary");
+
+
+		sideLegendG.append("rect")
+			.attr("x", -45)
+			.attr("width", 15)
+			.attr("height", 15)
+			.style("fill", function(d){return colorScale(d)});
+		sideLegendG.append("text")
+			.attr("x", -24)
+			.attr("y", 9)
+			.attr("dy", ".35em")
+			.style("text-anchor", "start")
+			.text(function(d) {return d});
+
+
 	};
 
 
-
-
-
-
+	// Draw Choropleth Maps
 	function renderResource(beneficiaryType) {
 		// Defining ColorScale
 		d3.selectAll("#arcs").remove()
@@ -370,16 +394,17 @@ function ready([topo, flows, stack, graph, topoChoropleth, beneficiaryData]) {
 		d3.selectAll("#mapLegend").remove()
 		d3.selectAll("#choroplethLegend").remove()
 		d3.selectAll(".choroplethBackground").remove()
+		d3.selectAll("#sideChoroplethLeg").remove()
 
 		// Choropleth Data Merge
 		var countries = topojson.feature(topo, topo.objects.countries);
 		var countryName = beneficiaryData.reduce((accumulator, d) =>{accumulator[d.id] = d;return accumulator;}, {});
 		countries.features.forEach(d => {	Object.assign(d.properties, countryName[d.id]);});
-		console.log(countryName)
+
 
 		// Choropleth Color Scheme
-
-		var colorScheme = d3.schemeBlues[6];
+		var legendTitle
+		var colorScheme = d3.schemeBlues[7];
 			colorScheme.unshift("#ecf0ff")
 		var colorScale
 		var colorValue
@@ -387,25 +412,22 @@ function ready([topo, flows, stack, graph, topoChoropleth, beneficiaryData]) {
 		var dollarValue
 
 		if (beneficiaryType === "resource"){
+			legendTitle = "Resource Percentage Distribution";
 			colorValue = d => d.properties.perc_resource;
 			catchValue = d => d.properties.resource_catch;
-			colorScale = d3.scaleThreshold()
-				.domain([0.01, 1, 4, 10, 15, 20])
-				.range(colorScheme);
+			colorScale = d3.scaleThreshold().domain([0.01, 0.5, 1, 5 , 10 ,15, 20]).range(colorScheme);
 		}
 		else if (beneficiaryType === "fleet") {
+			legendTitle = "Fleet Percentage Distribution";
 			colorValue = d => d.properties.perc_fleet;
 			catchValue = d => d.properties.fleet_catch;
-			colorScale = d3.scaleThreshold()
-				.domain([1, 3, 6, 9, 12, 15])
-				.range(colorScheme);
+			colorScale = d3.scaleThreshold().domain([0.1, 1, 3, 6, 9, 11,15 ]).range(colorScheme);
 		}
 		else if (beneficiaryType === "processing") {
+			legendTitle = "Processing Percentage Distribution";
 			colorValue = d => d.properties.perc_processing;
 			catchValue = d => d.properties.processing_weight;
-			colorScale = d3.scaleThreshold()
-				.domain([1, 3, 6, 8, 10, 12])
-				.range(colorScheme);
+			colorScale = d3.scaleThreshold().domain([0.1, 1, 3, 6, 9, 11 ,15]).range(colorScheme);
 
 		}
 
@@ -434,12 +456,12 @@ function ready([topo, flows, stack, graph, topoChoropleth, beneficiaryData]) {
 			.domain([0.1,32])
 			.rangeRound([0,200])
 
-		g = svg.append("g")
+		legG = svg.append("g")
 			.attr("id","choroplethLegend")
 			.attr("class", "key")
 			.attr("transform", "translate(820,320)");
 
-		g.selectAll("rect")
+		legG.selectAll("rect")
 			.data(colorScale.range().map(function(d) {
 				d = colorScale.invertExtent(d);
 				if (d[0] == null) d[0] = x.domain()[0];
@@ -452,21 +474,51 @@ function ready([topo, flows, stack, graph, topoChoropleth, beneficiaryData]) {
 			.attr("width", function(d) { return x(d[1]) - x(d[0]); })
 			.attr("fill", function(d) { return colorScale(d[0]); });
 
-		g.append("text")
+		legG.append("text")
 			.attr("class", "caption")
 			.attr("x", x.range()[0])
 			.attr("y", -9)
 			.attr("fill", "#000")
 			.attr("text-anchor", "start")
 			.attr("font-weight", "bold")
-			.text("Resource Percentage Distribution");
+			.text(legendTitle);
 
-		g.call(d3.axisBottom(x)
+		legG.call(d3.axisBottom(x)
 			.tickSize(13)
 			.tickValues(colorScale.domain()))
 			.select(".domain")
 			.remove();
 
+		var sideChoroplethG = sidebarLegend.append("g").attr("id","sideChoroplethLeg")
+			.attr("transform", "translate(18, 155)");
+
+		sideChoroplethG.selectAll("rect")
+			.data(colorScale.range().map(function(d) {
+				d = colorScale.invertExtent(d);
+				if (d[0] == null) d[0] = x.domain()[0];
+				if (d[1] == null) d[1] = x.domain()[1];
+				return d;
+			}))
+			.enter().append("rect")
+			.attr("height", 8)
+			.attr("x", function(d) { return x(d[0]); })
+			.attr("width", function(d) { return x(d[1]) - x(d[0]); })
+			.attr("fill", function(d) { return colorScale(d[0]); });
+
+		sideChoroplethG.append("text")
+			.attr("class", "caption")
+			.attr("x", x.range()[0])
+			.attr("y", -9)
+			.attr("fill", "#000")
+			.attr("text-anchor", "start")
+			.attr("font-weight", "bold")
+			.text(legendTitle);
+
+		sideChoroplethG.call(d3.axisBottom(x)
+			.tickSize(13)
+			.tickValues(colorScale.domain()))
+			.select(".domain")
+			.remove();
 
 	};
 
@@ -484,6 +536,12 @@ function ready([topo, flows, stack, graph, topoChoropleth, beneficiaryData]) {
 	d3.select('#process').on('click', function(){
 		renderResource("processing")
 	})
+
+
+
+
+
+
 
 
 
@@ -550,9 +608,7 @@ function ready([topo, flows, stack, graph, topoChoropleth, beneficiaryData]) {
 		.style("text-anchor", "start");
 		// .text( d => d.id);
 
-	barchart
 
-		
 	barchart.append("text")
 			.attr("transform", "translate(0," + height + ")")
 			.attr("id", "xaxis_label")
@@ -643,8 +699,8 @@ function ready([topo, flows, stack, graph, topoChoropleth, beneficiaryData]) {
 			.style("stroke", "#222")
 			.style("stroke-width", 2)
 			.style("fill-opacity", 0.9);
-		/* display tooltip including some record data */
 
+		/* display tooltip including some record data */
         barTooltip.html('<div>Country: '+ record.data.name + '</div>' +
 			'<div> Resource Dist: ' + record.data['Resource Owner'] + ' %<div />'+
 			'<div> Fleet Dist: ' + record.data['Fleet Owner'] + ' %<div />'+
@@ -685,12 +741,13 @@ function ready([topo, flows, stack, graph, topoChoropleth, beneficiaryData]) {
 					d3.selectAll("#path_" + nameToId(record.data.name)).classed("mapBorderHigh", false);
 				}
 			}
-    };	
+    };
 
+
+	// Drawing Sankey Diagram
 	var units = "%";
 	var positionInfo = document.getElementById('sankeyDiv').getBoundingClientRect();
 	var margin = {top: 10, right: 200, bottom: 30, left: 150};
-	
 	var width = positionInfo.width - margin.left - margin.right;
 	var height = positionInfo.height - margin.top - margin.bottom;
 	
@@ -700,8 +757,6 @@ function ready([topo, flows, stack, graph, topoChoropleth, beneficiaryData]) {
 
 	sankeySvg = sankeyDiv.append("svg")
 		.attr("viewBox", `0 0 ${width + margin.left + margin.right} ${height + margin.top + margin.bottom}`)
-		// .attr("width", width + margin.left + margin.right)
-		// .attr("height", height + margin.top + margin.bottom)
 		.attr("class", "sankeyDiv")
 		.append("g")
 		.attr("class", "sankeyDiv")
@@ -716,7 +771,6 @@ function ready([topo, flows, stack, graph, topoChoropleth, beneficiaryData]) {
 	const {nodes, links} = sankey(graph);
 	
 	const color = d3.scaleOrdinal(d3.schemeCategory10);
-	console.log(color(nodes));
 
 	// add in the nodes
 	sankeySvg.append("g")
