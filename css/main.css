@@ -344,6 +344,14 @@ i{
 .link:hover {
   stroke-opacity: .5;
 }
+.sankeytext{
+    text-shadow:
+    -1px -1px 3px white,
+    -1px 1px 3px white,
+    1px -1px 3px white,
+    1px 1px 3px;
+
+}
 /*End of Sankey Diagram*/
 
 /*stacked graph*/
