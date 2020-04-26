@@ -13,7 +13,7 @@ var barTooltip = d3.select("body")
 
 // Client position
 var positionInfo = document.getElementById('mapDiv').getBoundingClientRect();
-var margin = {top: 45, right: 10, bottom: 20, left: -70};
+var margin = {top: -10, right: 20, bottom: 0, left: -20};
 var width = positionInfo.width;
 	width = width - margin.left - margin.right;
 var height = positionInfo.height + margin.bottom;
@@ -30,8 +30,8 @@ var projection = d3.geoMercator()
 	.scale(width/9)
 	.translate([width/2, height-height/4 - 30])
 	.precision(0.1)
-	.center([0, -20 ])
-	.scale(110)
+	.center([-8, -20 ])
+	.scale(120)
 	.rotate([-160,0]);
 
 // Data and color scale
@@ -194,13 +194,15 @@ function ready([topo, flows, stack, graph, topoChoropleth, beneficiaryData]) {
 		});
 	// Sidebar Legend
 	var positionInfo = document.getElementById('SidebarLegend').getBoundingClientRect();
-	var margin = {top: 15, right: 10, bottom: 20, left: 50};
+	var margin = {top: 35, right: 10, bottom: 10, left: 50};
 	var width = positionInfo.width;
-	width = width - margin.left - margin.right;
-	var height = positionInfo.height + margin.bottom;
+	// width = width + margin.left - margin.right;
+	var height = positionInfo.height;
+	console.log(positionInfo)
 
 	var sidebarLegend = sideLegend.append("svg")
-		.attr("viewBox", `0 0 ${width} ${height}`);
+		.attr("width",200)
+		.attr("height",400);
 
 
 
@@ -330,7 +332,7 @@ function ready([topo, flows, stack, graph, topoChoropleth, beneficiaryData]) {
 			.attr("transform", function(d, i) { return "translate(0," + i * 20 + ")"; });
 
 		var mapL = mapFlowlegend.append('g')
-			.attr("transform", "translate(1000,260)");
+			.attr("transform", "translate(790,550)");
 
 			mapL.append("rect")
 				.attr("x", -18)
@@ -346,7 +348,7 @@ function ready([topo, flows, stack, graph, topoChoropleth, beneficiaryData]) {
 				.text(function(d) {return d});
 
 		var sideLegendG = sidebarLegend.append("g").attr("id","sideFlowLegend")
-			.attr("transform", "translate(50, 25)");
+			.attr("transform", "translate(70, 25)");
 
 		var sideLegendG = sideLegendG.selectAll(".legend")
 			.data(mapkeys.slice())
@@ -359,7 +361,7 @@ function ready([topo, flows, stack, graph, topoChoropleth, beneficiaryData]) {
 			.attr("transform", "translate(0,0)");
 
 		sidebarLegend.append("text")
-			.attr("transform", "translate(105,-30)")
+			.attr("transform", "translate(75,-30)")
 			.attr("x",width/2)
 			.attr("y", 45)
 			.style("fill", "#404040")
@@ -459,7 +461,7 @@ function ready([topo, flows, stack, graph, topoChoropleth, beneficiaryData]) {
 		legG = svg.append("g")
 			.attr("id","choroplethLegend")
 			.attr("class", "key")
-			.attr("transform", "translate(820,320)");
+			.attr("transform", "translate(580,580)");
 
 		legG.selectAll("rect")
 			.data(colorScale.range().map(function(d) {
@@ -490,7 +492,18 @@ function ready([topo, flows, stack, graph, topoChoropleth, beneficiaryData]) {
 			.remove();
 
 		var sideChoroplethG = sidebarLegend.append("g").attr("id","sideChoroplethLeg")
-			.attr("transform", "translate(18, 155)");
+			.attr("transform", "translate(18, 170)");
+
+
+		sideChoroplethG.append("text")
+			.attr("transform", "translate(-200,-80)")
+			.attr("x",width/2)
+			.attr("y", 45)
+			.style("fill", "#404040")
+			.style("font-size", "13px")
+			.style("font-weight", 400)
+			.style("text-anchor", "middle")
+			.text("Beneficiary Type Legend");
 
 		sideChoroplethG.selectAll("rect")
 			.data(colorScale.range().map(function(d) {
@@ -507,7 +520,7 @@ function ready([topo, flows, stack, graph, topoChoropleth, beneficiaryData]) {
 
 		sideChoroplethG.append("text")
 			.attr("class", "caption")
-			.attr("x", x.range()[0])
+			.attr("x", 0)
 			.attr("y", -9)
 			.attr("fill", "#000")
 			.attr("text-anchor", "start")
@@ -747,7 +760,7 @@ function ready([topo, flows, stack, graph, topoChoropleth, beneficiaryData]) {
 	// Drawing Sankey Diagram
 	var units = "%";
 	var positionInfo = document.getElementById('sankeyDiv').getBoundingClientRect();
-	var margin = {top: 10, right: 200, bottom: 30, left: 150};
+	var margin = {top: 10, right: 20, bottom: 30, left: 20};
 	var width = positionInfo.width - margin.left - margin.right;
 	var height = positionInfo.height - margin.top - margin.bottom;
 	

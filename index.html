@@ -72,7 +72,7 @@
 							<div class="tab-pane fade" id="v-pills-legend" role="tabpanel" aria-labelledby="v-pills-legend-tab">
 								<h2 class="leaflet-sidebar-header title">Legend</h2>
 								<div class="sidenavContent">
-									Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+									View legend details of the map below. The legend changes dynamically based on the map view
 									<div id ="SidebarLegend">
 
 									</div>
@@ -123,8 +123,8 @@
 
         <!-- Main Page Visualization Content  -->
 		<div id="content" class="p-4 p-md-5 pt-5" style="padding-top: 0px !important; padding-left: 2rem !important; padding-right: 1rem !important; padding-bottom: 2px !important;">
-			<div class="row mapBRow" style="height: 60%; margin-bottom: 2px;">
-				<div class="col-lg-8" style="height: 100%; padding-right: 1px">
+			<div class="row mapBRow" style="height: 100%; margin-bottom: 2px;">
+				<div class="col-lg-7" style="height: 100%; padding-right: 1px">
 					<!--Map-->
 
 					<div id="mapDiv" style="height: 100%; background-color: #FFFFFF; margin-bottom: 0px; width: 100%">
@@ -134,20 +134,25 @@
 						</div>
 					</div>
 				</div>
-				<div class="col-lg-4" style="height: 100%; padding-left: 5px">
+				<div class="col-lg-5" style="height: 100%; padding-left: 5px">
 					<!--Graph-->
-					<div id="barDiv" style="height:100%; background-color: #FFFFFF; margin-bottom: 0px; width:100%; float:right">
+					<div id="barDiv" style="height:49%; background-color: #FFFFFF; margin-bottom: 0px; width:100%; float:right; margin-bottom: 10px">
+					</div>
+					<div class="row sankeyRow" >
+
+					</div>
+					<div id="sankeyDiv" style="height: 49%; background-color: #FFFFFF; width: 100%">
 					</div>
 				</div>
 			</div>
 
 			<!--Sankey Diagram-->
-			<div class="row sankeyRow" style="height: 40%;">
-				<div class="col-lg-12">
-					<div id="sankeyDiv" style="height: 100%; background-color: #FFFFFF; width: 100%">
-					</div>
-				</div>
-			</div>
+			<!--<div class="row sankeyRow" style="height: 40%;">-->
+				<!--<div class="col-lg-12">-->
+					<!--<div id="sankeyDiv" style="height: 100%; background-color: #FFFFFF; width: 100%">-->
+					<!--</div>-->
+				<!--</div>-->
+			<!--</div>-->
 		</div>
 		<!--End of Visualization content-->
 
