@@ -1,4 +1,4 @@
-# WCPO Visualization
+# Mapping Flows of Benefits of MES Across the Globe
 
 ## Description
 This is a Geovisualization research project the Master's in Geoinformation Science and Earth Observations for Geoinformatics.
