@@ -21,9 +21,14 @@ header{
     margin-bottom: 5px;
 }
 header h4{
-    line-height: 2.7;
-    text-indent: 25px;
-    font-size: 20px;
+    line-height: 3;
+    text-indent: 30px;
+    font-size: 19px;
+}
+header h4 span{
+    line-height: 3;
+    text-indent: 30px;
+    font-size: 16px;
 }
 /*header end*/
 
