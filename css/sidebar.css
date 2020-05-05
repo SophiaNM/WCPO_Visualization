@@ -8192,8 +8192,8 @@ h1, h2, h3, h4, h5,
   width: 100%; }
 
 #sidebar {
-  min-width: 320px;
-  max-width: 320px;
+  min-width: 380px;
+  max-width: 380px;
   background: #3445b4;
   color: #fff;
   -webkit-transition: all 0.3s;
@@ -8203,7 +8203,7 @@ h1, h2, h3, h4, h5,
   #sidebar .h6 {
     color: #fff; }
   #sidebar.active {
-    margin-left: -320px; }
+    margin-left: -380px; }
   #sidebar h1 {
     margin-bottom: 20px;
     font-weight: 700;
@@ -8236,7 +8236,7 @@ h1, h2, h3, h4, h5,
       color: #fff; }
   @media (max-width: 991.98px) {
     #sidebar {
-      margin-left: -320px; }
+      margin-left: -380px; }
       #sidebar.active {
         margin-left: 0; } }
   #sidebar .custom-menu {
