@@ -274,7 +274,7 @@ label#search_submit{
     line-height: 1;
 }
 
-ul{
+ul.ui-autocomplete{
     list-style-type: none;
     background-color: #fff;
     width: 200px;
@@ -282,6 +282,35 @@ ul{
     position: relative;
     left: 10px;
     box-shadow: 5px 5px 10px #eaeaea;;
+}
+ul.helplist {
+    font-size: 10px;
+    padding-left: 10px;
+}
+
+#sidebar ul.helplist li{
+    font-size: 10.5px;
+}
+
+ul.infolist {
+    font-size: 10px;
+    padding-left: 10px;
+}
+
+#sidebar ul.infolist li{
+    font-size: 10.5px;
+}
+
+#sidebar ul.infolist li a{
+    font-size: 10.5px;
+    width: auto;
+}
+
+#v-pills-help p{
+    margin-bottom: 0px;
+}
+#v-pills-help h6{
+    font-size: 0.79rem;
 }
 
 .countryBars:hover{
