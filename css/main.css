@@ -339,6 +339,14 @@ ul.infolist {
 
 
 
+#content p{
+    position: absolute;
+    left: 15px;
+}
+#mapDiv p{
+    position: absolute;
+    left: 25px;
+}
 
 /*Map Content*/
 .countries {

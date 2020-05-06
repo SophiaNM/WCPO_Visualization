@@ -1,0 +1,11 @@
+Country Map File
+https://gisedu.itc.utwente.nl/cgi-bin/mapserv.exe?map=d:/iishome/student/s6040241/projects/WCPO/data/Data_ingestion/countryWFS.map&SERVICE=WFS&VERSION=2.0.0&REQUEST=GetCapabilities
+https://gisedu.itc.utwente.nl/cgi-bin/mapserv.exe?map=d:/iishome/student/s6040241/projects/WCPO/data/Data_ingestion/countryWFS.map&SERVICE=WFS&VERSION=2.0.0&REQUEST=DescribeFeatureType&TYPENAME=Country&OUTPUTFORMAT=text/xml;%20subtype=gml/2.1.2
+
+Continent MapFile
+https://gisedu.itc.utwente.nl/cgi-bin/mapserv.exe?map=d:/iishome/student/s6040241/projects/WCPO/data/Data_ingestion/continentWFS.map&SERVICE=WFS&VERSION=2.0.0&REQUEST=GetCapabilities
+https://gisedu.itc.utwente.nl/cgi-bin/mapserv.exe?map=d:/iishome/student/s6040241/projects/WCPO/data/Data_ingestion/continentWFS.map&SERVICE=WFS&VERSION=2.0.0&REQUEST=DescribeFeatureType&TYPENAME=Continent&OUTPUTFORMAT=text/xml;%20subtype=gml/2.1.2
+
+Boundary MapFile
+https://gisedu.itc.utwente.nl/cgi-bin/mapserv.exe?map=d:/iishome/student/s6040241/projects/WCPO/data/Data_ingestion/boundaryWFS.map&SERVICE=WFS&VERSION=2.0.0&REQUEST=GetCapabilities
+https://gisedu.itc.utwente.nl/cgi-bin/mapserv.exe?map=d:/iishome/student/s6040241/projects/WCPO/data/Data_ingestion/boundaryWFS.map&SERVICE=WFS&VERSION=2.0.0&REQUEST=DescribeFeatureType&TYPENAME=BoundaryWCPO&OUTPUTFORMAT=text/xml;%20subtype=gml/2.1.2

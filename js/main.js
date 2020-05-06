@@ -791,7 +791,7 @@ function ready([topo, boundary,flows, stack, graph, beneficiaryData]) {
 			.attr("class", "control")
 			.attr("r", 6)
 			.attr("fill", "none")
-			.attr("stroke", "green")
+			.attr("stroke", "darkblue")
 			.attr("stroke-width", 2)
 			.attr("cx", function(d){
 				return projection(d.country.destination)[0];
@@ -869,13 +869,21 @@ function ready([topo, boundary,flows, stack, graph, beneficiaryData]) {
 			.attr("transform", function(d, i) { return "translate(0," + i * 20 + ")"; });
 
 		var mapL = mapFlowlegend.append('g')
-			.attr("transform", "translate(790,595)");
+			.attr("transform", "translate(777,595)");
 
-			mapL.append("rect")
-				.attr("x", -18)
-				.attr("width", 15)
-				.attr("height", 15)
-				.style("fill", function(d){return colorScale(d)});
+			mapL.append("line")
+				.attr("x1", - 18)
+				.attr("x2",18 )
+				.attr("y1", 10)
+				.attr("y2", 10)
+				.style("stroke-dasharray"," 15, 8, 5 ")
+				.style("stroke-width","7")
+				.attr("stroke-linecap", "round")
+				.attr("stroke-linejoin", "round")
+				// .attr("x", -18)
+				// .attr("width", 15)
+				// .attr("height", 15)
+				.style("stroke", function(d){return colorScale(d)});
 
 			mapL.append("text")
 				.attr("x", -24)
@@ -909,11 +917,20 @@ function ready([topo, boundary,flows, stack, graph, beneficiaryData]) {
 			.text("Flow Legend Beneficiary");
 
 
-		sideLegendG.append("rect")
-			.attr("x", -45)
-			.attr("width", 15)
-			.attr("height", 15)
-			.style("fill", function(d){return colorScale(d)});
+		sideLegendG.append("line")
+			.attr("x1", -65)
+			.attr("x2", -30 )
+			.attr("y1", 10)
+			.attr("y2", 10)
+			.style("stroke-dasharray"," 15, 8, 5 ")
+			.style("stroke-width","7")
+			.attr("stroke-linecap", "round")
+			.attr("stroke-linejoin", "round")
+			// .attr("x", -18)
+			// .attr("width", 15)
+			// .attr("height", 15)
+			.style("stroke", function(d){return colorScale(d)});
+
 		sideLegendG.append("text")
 			.attr("x", -24)
 			.attr("y", 9)
@@ -1222,7 +1239,7 @@ function ready([topo, boundary,flows, stack, graph, beneficiaryData]) {
 			.style("font-size", "13px")
 			.style("font-weight", 400)
 			.style("text-anchor", "middle")
-			.text("Country ID");
+			.text("Country Codes");
 
 	barchart.append("text")
 			.attr("transform", "translate(0,0) rotate(-90)")
@@ -1354,7 +1371,7 @@ function ready([topo, boundary,flows, stack, graph, beneficiaryData]) {
 	////////////////////////// Drawing Sankey Diagram //////////////////////////////////////////
 	var units = "%";
 	var positionInfo = document.getElementById('sankeyDiv').getBoundingClientRect();
-	var margin = {top: 10, right: 30, bottom: 30, left: 30};
+	var margin = {top: 30, right: 30, bottom: 20, left: 30};
 	var width = positionInfo.width - margin.left - margin.right;
 	var height = positionInfo.height - margin.top - margin.bottom;
 	

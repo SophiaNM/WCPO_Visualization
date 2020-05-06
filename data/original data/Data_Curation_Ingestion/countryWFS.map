@@ -1,0 +1,41 @@
+MAP
+  NAME Country
+  PROJECTION
+   "init=epsg:4326"
+  END
+  EXTENT -180 -90 180 90 # lon/lat extents of world
+  OUTPUTFORMAT
+    NAME "application/json"
+    DRIVER "OGR/GEOJSON"
+    MIMETYPE "application/json; subtype=geojson"
+    FORMATOPTION "STORAGE=stream"
+    FORMATOPTION "FORM=SIMPLE"
+  END
+  WEB
+    METADATA
+      "ows_enable_request" "*"
+      "map" "d:/iishome/student/s6040241/projects/WCPO/data/Data_ingestion/countryWFS.map"
+      "ows_title" "Country WFS Server"
+      "ows_service" "WFS"
+      "wfs_onlineresource" "https://gisedu.itc.utwente.nl/cgi-bin/mapserv.exe?map=d:/iishome/student/s6040241/projects/WCPO/data/Data_ingestion/countryWFS.map&"
+      "ows_srs" "EPSG:4326" #latlon
+      "wfs_getfeature_formatlist" "gml,geojson,shapezip,dbfzip,spatialite,application/jso"
+    END #metadata
+  END #web
+  LAYER
+    NAME Country
+    TYPE POLYGON
+    STATUS ON
+    CONNECTIONTYPE postgis
+    CONNECTION "user=s6040241 password=_s6040241_ dbname=wcpo host=gip.itc.utwente.nl port=5434 options='-c client_encoding=UTF8'"
+    DATA "geom FROM public.country USING UNIQUE id USING srid=4326"
+    METADATA
+      "wfs_title" "countryWFS"
+      "gml_include_items" "all"
+      "gml_featureid" "gid"
+      "wfs_srs" "EPSG:4326"
+      "wfs_extent" "-180 -90 180 90"
+    END #metadata
+    DUMP TRUE
+  END #layer country
+END #map
