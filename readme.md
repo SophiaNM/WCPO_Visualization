@@ -19,7 +19,7 @@ The application therefore translates static information of the Marine Ecosystem 
 
 
 ### View Live Site here
-View the complete site [here](https://gisedu.itc.utwente.nl/student/s6040241/wcpo/index.html)
+View the complete site [here](https://smurage.com/wcpo/)
 
 ## Technology and Prerequisite
 The WCPO project requires a prerequisite understanding of the following:
