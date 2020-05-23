@@ -44,7 +44,7 @@ var projection = d3.geoMercator()
 	.translate([width/2, height-height/4 - 30])
 	.precision(0.1)
 	.center([-8, -20 ])
-	.scale(120)
+	.scale(125)
 	.rotate([-160,0]);
 
 // Data and color scale
@@ -752,7 +752,7 @@ function ready([topo, boundary,flows, stack, graph, beneficiaryData]) {
 
 		var boundaryLegG = svg.append("g").attr("id","boundaryLegendFlow");
 		var boundaryL = boundaryLegG.append('g')
-			.attr("transform", "translate(790,575)");
+			.attr("transform", "translate(865,630)");
 
 		boundaryL.append("rect")
 			.attr("x", -18)
@@ -869,7 +869,7 @@ function ready([topo, boundary,flows, stack, graph, beneficiaryData]) {
 			.attr("transform", function(d, i) { return "translate(0," + i * 20 + ")"; });
 
 		var mapL = mapFlowlegend.append('g')
-			.attr("transform", "translate(777,595)");
+			.attr("transform", "translate(850,655)");
 
 			mapL.append("line")
 				.attr("x1", - 18)
@@ -1005,7 +1005,9 @@ function ready([topo, boundary,flows, stack, graph, beneficiaryData]) {
 		else if (beneficiaryType === "processing") {
 			legendTitle = "Processing Percentage Distribution";
 			colorValue = d => d.properties.perc_processing;
-			catchValue = d => d.properties.processing_weight;
+			catchValue = d => (d.properties.processing_weight == 0)
+				? "no data weight"
+				: d.properties.processing_weight;
 			colorScale = d3.scaleThreshold().domain([0.1, 1, 3, 6, 9, 12 ,20]).range(colorScheme);
 
 		}
@@ -1028,7 +1030,8 @@ function ready([topo, boundary,flows, stack, graph, beneficiaryData]) {
 			.append('title')
 			.text(d => (colorValue(d) === undefined )
 				? idToName(d.id) + "\nMissing Data"
-				: d.properties.country_name +"\n"+"Share Distribution: " + colorValue(d) + "%\n" + "Tuna Weight: " + catchValue(d)+ " mT"   )
+				: d.properties.country_name +"\n"+"Share Distribution: " + colorValue(d) + "%\n" + "Tuna Weight: " +
+				catchValue(d) +  " mT")
 			.exit().remove();
 
 
@@ -1046,7 +1049,7 @@ function ready([topo, boundary,flows, stack, graph, beneficiaryData]) {
 
 		var boundaryLegG = svg.append("g").attr("id","boundaryLegendFlow");
 		var boundaryL = boundaryLegG.append('g')
-			.attr("transform", "translate(792,555)");
+			.attr("transform", "translate(850,640)");
 
 		boundaryL.append("rect")
 			.attr("x", -18)
@@ -1072,7 +1075,7 @@ function ready([topo, boundary,flows, stack, graph, beneficiaryData]) {
 		legG = svg.append("g")
 			.attr("id","choroplethLegend")
 			.attr("class", "key")
-			.attr("transform", "translate(630,595)");
+			.attr("transform", "translate(700,685)");
 
 		legG.selectAll("rect")
 			.data(colorScale.range().map(function(d) {
@@ -1323,9 +1326,9 @@ function ready([topo, boundary,flows, stack, graph, beneficiaryData]) {
 
 		/* display tooltip including some record data */
         barTooltip.html('<div>Country: '+ record.data.name + '</div>' +
-			'<div> Resource Dist: ' + record.data['Resource Owner'] + ' % <div />'+
-			'<div> Fleet Dist: ' + record.data['Fleet Owner'] + ' %<div />'+
-			'<div> Processing Dist: ' + record.data['Processing'] + ' %<div />');
+			'<div> Resource: ' + record.data['Resource Owner'] + ' % <div />'+
+			'<div> Fleet: ' + record.data['Fleet Owner'] + ' %<div />'+
+			'<div> Processing: ' + record.data['Processing'] + ' %<div />');
         barTooltip.transition()
 			.duration(50)
 			.style("display", "block")

@@ -1,8 +1,9 @@
 /*Body*/
 body{
 	overflow: auto;
-	overflow-y: hidden;
+	/*overflow-y: hidden;*/
 	overflow-x: hidden;
+    height: 100vh;
 }
 .page-content{
     height: 100vh;
