@@ -1,8 +1,8 @@
 # Mapping Flows of Benefits of MES Across the Globe
 
 ## Description
-This is a Geovisualization research project the Master's in Geoinformation Science and Earth Observations for Geoinformatics.
-This Interactive web mapping application has been built to visualize the flows of economic benefits of Marine Ecosystem Services (MES).
+This is a Geovisualization research project the Master's in Geo-information Science and Earth Observations for Geoinformatics. 
+An interactive web mapping application has been built to visualize the flows of economic benefits of Marine Ecosystem Services (MES).
 The visualization specifically shows the economic benefits of tuna fish from the purse seine fishery within the Western Central Pacific Ocean (WCPO) Region. 
 									
 The aim of the application is to interactively visualize, explore and understand the flows of benefits of MES across the world.
