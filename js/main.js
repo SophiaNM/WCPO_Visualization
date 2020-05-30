@@ -430,7 +430,7 @@ function ready([topo, boundary,flows, stack, graph, beneficiaryData]) {
 		.attr("width", x.bandwidth())
 		.attr("height", function(d) { return barHeight - y(d.value); })
 		.attr("fill", "#46c4da");
-	
+
 	// Bar Text
 	var text = countryChartG.selectAll(".text")
 		.data(countryData);
@@ -444,13 +444,6 @@ function ready([topo, boundary,flows, stack, graph, beneficiaryData]) {
 		.attr("y", d => y(d.value) - 5)
 		.text(d => d.value + " mT");
 
-	// Update visual based on country selection
-	// var centered
-	// var zoomSettings = {
-	// 	duration: 1000,
-	// 	ease: d3.easeCubicOut,
-	// 	zoomLevel: 5
-	// }
 	function updateData(country_selection){
 		beneficiaryData.forEach(function (d) {
 			if (d.country_name == country_selection) {
@@ -460,41 +453,24 @@ function ready([topo, boundary,flows, stack, graph, beneficiaryData]) {
 				var width = 330 - margin.left - margin.right;
 				var height = 530 - margin.top - margin.bottom;
 
-				// console.log("path_"+countryData.id)
-
-				newPath = d3.select("#path_"+countryData.id)
-
-				// console.log(newPath.attr("d")[0].getBBox())
-
-
-				// function zooming() {
-				// 	d3.select(this).attr("transform", d3.event.transform);
-				// };
-				console.log(path.bounds(newPath.datum()));
-
-				bounds = path.bounds(newPath.datum());
-
-				dx = bounds[1][0] - bounds[0][0],
-					dy = bounds[1][1] - bounds[0][1],
-					x = (bounds[0][0] + bounds[1][0]) / 2,
-					y = (bounds[0][1] + bounds[1][1]) / 2,
-					scale = Math.max(1, Math.min(8, 0.9 / Math.max(dx / width, dy / height))),
-					translate = [width / 2 - scale * x, height / 2 - scale * y];
-
-				mapG.transition()
-					.duration(750)
-					// .call(zoom.translate(translate).scale(scale).event); // not in d3 v4
-					.call( zoom.transform, d3.zoomIdentity.translate(translate[0],translate[1]).scale(scale) );
-
-				newPath
-					// .attr("id","selectedCountry_"+countryData.id)
-					.attr("class", 'mapBackgroundHighlight')
-					.on("mouseout", clearHighlight)
-					;
-
-				// zoom.scaleBy(newPath.transition().duration(750), 1.3);
-				// var bbox = path.getBBox();
-
+				//zoom to selection
+				// newPath = d3.select("#path_"+countryData.id);
+				// bounds = path.bounds(newPath.datum());
+				//
+				// dx = bounds[1][0] - bounds[0][0],
+				// 	dy = bounds[1][1] - bounds[0][1],
+				// 	x = (bounds[0][0] + bounds[1][0]) / 2,
+				// 	y = (bounds[0][1] + bounds[1][1]) / 2,
+				// 	scale = Math.max(1, Math.min(8, 0.9 / Math.max(dx / width, dy / height))),
+				// 	translate = [width / 2 - scale * x, height / 2 - scale * y];
+				//
+				// mapG.transition()
+				// 	.duration(750)
+				// 	.call( zoom.transform, d3.zoomIdentity.translate(translate[0],translate[1]).scale(scale) );
+				//
+				// newPath
+				// 	.attr("class", 'mapBackgroundHighlight')
+				// 	.on("mouseout", clearHighlight)	;
 
 
 				d3.selectAll("#countryData").remove()
@@ -559,8 +535,6 @@ function ready([topo, boundary,flows, stack, graph, beneficiaryData]) {
 					.attr("class", "myYaxis");
 
 
-				// var countrytooltip = countryChartG.append("div").attr("class", "countrytoolTip");
-
 				countryChartG = countryChartG.append("g")
 					.attr("id","countryChart")
 					.attr("transform", "translate(-80,150)")
@@ -580,16 +554,6 @@ function ready([topo, boundary,flows, stack, graph, beneficiaryData]) {
 					.attr("width", x.bandwidth())
 					.attr("height", function(d) { return barHeight - y(d.value); })
 					.attr("fill", "#46c4da");
-				// countryBarChart
-				// 	.on("mousemove", function(d){
-				// 		countrytooltip
-				// 			.style("left", d3.event.pageX - 50 + "px")
-				// 			.style("top", d3.event.pageY - 70 + "px")
-				// 			.style("display", "inline-block")
-				// 			.html("%" );
-				// 	})
-				// 	.on("mouseout", function(d){ tooltip.style("display", "none");});
-
 
 				// Bar Text
 				var text = countryChartG.selectAll(".text")
@@ -914,11 +878,10 @@ function ready([topo, boundary,flows, stack, graph, beneficiaryData]) {
 		// Choropleth Color Scheme
 		var legendTitle
 		var colorScheme = d3.schemeBlues[7];
-			// colorScheme.unshift("#ecf0ff")
 		var colorScale
 		var colorValue
 		var catchValue
-		var dollarValue
+		// var dollarValue
 
 		if (beneficiaryType === "resource"){
 			legendTitle = "Resource Percentage Distribution";
@@ -946,7 +909,6 @@ function ready([topo, boundary,flows, stack, graph, beneficiaryData]) {
 		}
 
 		var mapsDistTitle = mapG.append("g").attr("transform", "translate(80,10)");
-
 		mapsDistTitle.append("text")
 			.attr("id","mapInfoTitle")
 			.attr("x", -24)
@@ -1236,14 +1198,6 @@ function ready([topo, boundary,flows, stack, graph, beneficiaryData]) {
 
 	text.exit().remove()
 
-	// text.enter().append("text")
-	// 	.attr("class", "text")
-	// 	.attr("text-anchor", "middle")
-	// 	.merge(text)
-	// 	.transition().duration(speed)
-	// 	.attr("x", d => x(d.code) + x.bandwidth() / 2)
-	// 	.attr("y", d => y(d.total) - 5)
-	// 	.text(d => d.total);
 	
 	var legend = barchart.selectAll(".legend")
 		  .data(keys.slice().reverse())
