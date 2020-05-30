@@ -454,7 +454,7 @@ function ready([topo, boundary,flows, stack, graph, beneficiaryData]) {
 				var height = 530 - margin.top - margin.bottom;
 
 				//zoom to selection
-				// newPath = d3.select("#path_"+countryData.id);
+				newPath = d3.select("#path_"+countryData.id);
 				// bounds = path.bounds(newPath.datum());
 				//
 				// dx = bounds[1][0] - bounds[0][0],
@@ -468,9 +468,9 @@ function ready([topo, boundary,flows, stack, graph, beneficiaryData]) {
 				// 	.duration(750)
 				// 	.call( zoom.transform, d3.zoomIdentity.translate(translate[0],translate[1]).scale(scale) );
 				//
-				// newPath
-				// 	.attr("class", 'mapBackgroundHighlight')
-				// 	.on("mouseout", clearHighlight)	;
+				newPath
+					.attr("class", 'mapBackgroundHighlight')
+					.on("mouseout", clearHighlight)	;
 
 
 				d3.selectAll("#countryData").remove()
