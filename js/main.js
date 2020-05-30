@@ -1,6 +1,6 @@
 /*
 
-Last Modified on 2020-05-06
+Last Modified on 2020-05-31
 @author: Njeri Murage
 
 main.js file:
@@ -8,8 +8,6 @@ main.js file:
 - create flow map, barchart and sankey diagram using d3 and svg
 
 */
-
-
 /////////// Define variables and functions /////////////////
 
 // select divs by id:
@@ -18,7 +16,7 @@ var barDiv = d3.select("#barDiv");
 var sankeyDiv = d3.select("#sankeyDiv");
 var sideLegend = d3.select("#SidebarLegend");
 var searchCountry = d3.select("#searchCountry");
-// var filterBeneficiary = d3.select("#filterBeneficiary");
+
 
 var speed = 300;
 var barTooltip = d3.select("body")
@@ -28,17 +26,16 @@ var barTooltip = d3.select("body")
 
 // Client position
 var positionInfo = document.getElementById('mapDiv').getBoundingClientRect();
-var margin = {top: -45, right: 20, bottom: 0, left: -20};
+var margin = {top: -5, right: 20, bottom: 0, left: -20};
 var width = positionInfo.width;
 	width = width - margin.left - margin.right;
 var height = positionInfo.height + margin.bottom;
 
 var main = mapDiv.append("svg")	.attr("viewBox", `0 0 ${width} ${height}`);
 var svg = main.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-var mapG = svg.append("g")
+var mapG = svg.append("g").attr("id","flowMapContainer")
 
 // Map and projection
-var path = d3.geoPath();
 var projection = d3.geoMercator()
 	.scale(width/9)
 	.translate([width/2, height-height/4 - 30])
@@ -46,6 +43,8 @@ var projection = d3.geoMercator()
 	.center([-8, -20 ])
 	.scale(125)
 	.rotate([-160,0]);
+
+var path = d3.geoPath().projection(projection);
 
 // Data and color scale
 var data = d3.map();
@@ -79,6 +78,7 @@ function onMouseMove(){
 	.style("left", (d3.event.pageX+10)+"px");
 };
 
+
 function clearHighlight(d){
 	if(d3.select(this).classed('mapBackground') === false){
 		d3.select(this).attr("class", 'mapBackground');
@@ -99,9 +99,7 @@ function clearHighlight(d){
 };
 
 
-
 function highlightSankeyFlows(d) {
-
 
 	d3.select(this).attr("stroke-opacity", 1);
 	d3.selectAll(".lines")
@@ -119,9 +117,8 @@ function highlightSankeyFlows(d) {
 		.style("stroke-opacity", 1)
 		.style("fill-opacity", 1);
 
-
-	console.log("#resource-process_"+d.codeId || "#fleet-process_"+d.codeId || "#process-market_" +d.codeId);
 }
+
 
 function clearHLSankeyFlows() {
 
@@ -130,7 +127,6 @@ function clearHLSankeyFlows() {
 		.style("stroke-opacity", 1)
 		.style("fill-opacity", 1);
 }
-
 
 
 function onMapClick(d){
@@ -143,6 +139,16 @@ function onMapClick(d){
 		.style("fill-opacity", 1);
 };
 
+
+$( document.body ).click(function(e) {
+	var elem = document.elementFromPoint(e.pageX, e.pageY);
+	if (elem.getAttribute('class') !== null && elem.getAttribute('class').indexOf("legendFlowClass") === 0){
+		console.log(elem.getAttribute('class').indexOf("legendFlowClass"))
+	} else {
+		clearflowHighlight();
+
+	}
+});
 
 
 function onFlowHighlight(d) {
@@ -160,14 +166,15 @@ function onFlowHighlight(d) {
 		d3.selectAll("[id^='fleet-process_']")
 			.style("stroke-opacity", 1)
 			.style("fill-opacity", 1);
-	} else {
+	} else if (d === "Processing to Market") {
 		d3.selectAll("[id^='process-market_']")
 			.style("stroke-opacity", 1)
 			.style("fill-opacity", 1);
 	}
 };
 
-function clearflowHighlight(d) {
+
+function clearflowHighlight() {
 	d3.selectAll(".lines")
 		.style("stroke-opacity", 1)
 		.style("fill-opacity", 1);
@@ -176,14 +183,15 @@ function clearflowHighlight(d) {
 		.style("fill-opacity", 1);
 };
 
+
 var zoom = d3.zoom()
 	.scaleExtent([1, 8])
 	.on("zoom", zoomed);
+
 function zoomed() {
 	var transform = d3.event.transform;
 	mapG.style("stroke-width", 1.9 / transform.k + "px");
 	mapG.attr("transform", transform);
-
 }
 
 d3.select('#zoom-in').on('click', function() {	zoom.scaleBy(mapG.transition().duration(750), 1.3)});
@@ -279,137 +287,6 @@ function ready([topo, boundary,flows, stack, graph, beneficiaryData]) {
 		.attr("width",200)
 		.attr("height",400);
 
-	/////////// Drawing Sidebar Beneficiary Filter ///////////////////
-	// var margin = {top: 40, right: 5, bottom: 50, left: 60},
-	// 	width = 330 - margin.left - margin.right,
-	// 	height = 530 - margin.top - margin.bottom;
-	//
-	// // console.log(positionInfo)
-	// beneficiaryData.forEach(d => {
-	// 	d.resource_catch = +d.resource_catch
-	// })
-	//
-	// var benefitSVG = filterBeneficiary.append("svg")
-	// 	.attr("class", "filterBenefit")
-	// 	.attr("width", width + margin.left + margin.right)
-	// 	.attr("height", height + margin.top + margin.bottom)
-	// 	.append("g")
-	// 	.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-	//
-	// var elements = Object.keys(beneficiaryData[0])
-	// 	.filter(function(d){
-	// 		return ((d != "country_name") & (d != "id")& (d != "fid") & (d != "code") & (d != "continent_code")& (d != "country_code")& (d != "perc_resource")& (d != "resource_value")& (d != "perc_fleet")& (d != "fleet_vessels")& (d != "perc_processing"));
-	// 	});
-	// var selection = elements[0];
-	//
-	// var xValue = d => +d[selection]
-	// var yValue = d => d.country_name
-	//
-	// var xScale = d3.scaleLinear()
-	// 	.domain([0, d3.max(beneficiaryData,xValue)])
-	// 	.range([0, width]).nice();
-	// console.log(xScale.range())
-	//
-	// var yScale = d3.scaleBand()
-	// 	.domain(beneficiaryData.map(yValue))
-	// 	.range([0, height])
-	// 	.padding(0.05);
-	// console.log(yScale.range())
-	//
-	// var yAxis = d3.axisLeft(yScale);
-	// var xAxis = d3.axisBottom(xScale)
-	// 	.tickFormat(d3.format('.2s'));
-	//
-	// benefitSVG.append('g').call(yAxis)
-	// 	.style("font-size", 7);
-	//
-	// benefitSVG.append('g')
-	// 	.attr("class", "x axis")
-	// 	// .attr("width", width + margin.left + margin.right)
-	// 	// .attr("height", height + margin.top + margin.bottom)
-	// 	.call(xAxis)
-	// 	.attr("transform", `translate(0, ${height})`)
-	// 	.transition().duration(speed)
-	// 	.selectAll("text")
-	// 	.attr("y", 0)
-	// 	.attr("x", 9)
-	// 	.attr("dy", ".35em")
-	// 	.attr("transform", "rotate(90)")
-	// 	.style("text-anchor", "start");
-	//
-	// benefitSVG.selectAll('rect')
-	// 	.data(beneficiaryData)
-	// 	.enter().append('rect')
-	// 	.attr("class", "rectangle")
-	// 	.attr('y', d => yScale(yValue(d)))
-	// 	.attr('width', d => xScale(xValue(d)))
-	// 	.attr('height', yScale.bandwidth())
-	// 	.style("fill","steelblue")
-	// 	.append("title")
-	// 	.text(function(d){
-	// 		return d.country_name + ": " + xValue(d)+ "mT";
-	// 	});
-	//
-	//
-	// var selector = filterBeneficiary.append("select")
-	// 	.attr("id","dropdown")
-	// 	.attr("transform","translate(-300,10)")
-	// 	.on("change", function (d) {
-	// 		selection = document.getElementById("dropdown");
-	// 		console.log(selection)
-	// 		var xValue = d => +d[selection.value]
-	// 		var xScale = d3.scaleLinear()
-	// 			.domain([0, d3.max(beneficiaryData,xValue)])
-	// 			.range([0, width]).nice();
-	// 		// console.log(xScale.range())
-	//
-	// 		var benefitSVG = filterBeneficiary.append("svg")
-	// 			.attr("class", "filterBenefit")
-	// 			.attr("width", width + margin.left + margin.right)
-	// 			.attr("height", height + margin.top + margin.bottom)
-	// 			.append("g")
-	// 			.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-	//
-	//
-	// 		d3.selectAll('.rectangle')
-	// 			.transition(d3.easeLinear)
-	// 			.attr('y', d => yScale(yValue(d)))
-	// 			.attr('width', d => xScale(xValue(d)))
-	// 			.attr('height', yScale.bandwidth())
-	// 			.style("fill","steelblue")
-	// 			.append("title")
-	// 			.text(function(d){
-	// 				return d.country_name + ": "+ `${d => +d[selection.value]}` + "mT";
-	// 			});
-	//
-	// 		console.log(height)
-	//
-	// 		d3.selectAll("g.x.axis")
-	// 			.call(d3.axisBottom(xScale).tickFormat(d3.format('.2s')))
-	// 			// .attr("transform", `translate(0, ${height})`)
-	// 			.transition().duration(speed)
-	// 			.selectAll("text")
-	// 			.attr("y", 0)
-	// 			.attr("x", 9)
-	// 			.attr("dy", ".35em")
-	// 			.attr("transform", "rotate(90)")
-	// 			.style("text-anchor", "start");
-	// 	});
-	//
-	// selector.selectAll("option")
-	// 	.data(elements)
-	// 	.enter().append("option")
-	// 	.attr("value", function(d){
-	// 		return d;
-	// 	})
-	// 	.text(function(d){
-	// 		return d ;
-	//
-	// 	})
-
-	///////////////////////////////////End
-
-
 
 
 	////////////////////////////// Sidebar Search Information////////////////////////////
@@ -504,6 +381,7 @@ function ready([topo, boundary,flows, stack, graph, beneficiaryData]) {
 		.style("line-height", 1.8)
 		.selectAll('div')
 		.style("padding",5)
+
 	;
 
 	//Drawing Bar Chart
@@ -552,18 +430,7 @@ function ready([topo, boundary,flows, stack, graph, beneficiaryData]) {
 		.attr("width", x.bandwidth())
 		.attr("height", function(d) { return barHeight - y(d.value); })
 		.attr("fill", "#46c4da");
-
-	// countryBarChart
-	// 	.on("mousemove", function(d){
-	// 		countrytooltip
-	// 			.style("left", d3.event.pageX - 50 + "px")
-	// 			.style("top", d3.event.pageY - 70 + "px")
-	// 			.style("display", "inline-block")
-	// 			.html("%" );
-	// 	})
-	// 	.on("mouseout", function(d){ tooltip.style("display", "none");});
-
-
+	
 	// Bar Text
 	var text = countryChartG.selectAll(".text")
 		.data(countryData);
@@ -578,6 +445,12 @@ function ready([topo, boundary,flows, stack, graph, beneficiaryData]) {
 		.text(d => d.value + " mT");
 
 	// Update visual based on country selection
+	// var centered
+	// var zoomSettings = {
+	// 	duration: 1000,
+	// 	ease: d3.easeCubicOut,
+	// 	zoomLevel: 5
+	// }
 	function updateData(country_selection){
 		beneficiaryData.forEach(function (d) {
 			if (d.country_name == country_selection) {
@@ -586,6 +459,43 @@ function ready([topo, boundary,flows, stack, graph, beneficiaryData]) {
 				var margin = {top: 40, right: 5, bottom: 50, left: 60};
 				var width = 330 - margin.left - margin.right;
 				var height = 530 - margin.top - margin.bottom;
+
+				// console.log("path_"+countryData.id)
+
+				newPath = d3.select("#path_"+countryData.id)
+
+				// console.log(newPath.attr("d")[0].getBBox())
+
+
+				// function zooming() {
+				// 	d3.select(this).attr("transform", d3.event.transform);
+				// };
+				console.log(path.bounds(newPath.datum()));
+
+				bounds = path.bounds(newPath.datum());
+
+				dx = bounds[1][0] - bounds[0][0],
+					dy = bounds[1][1] - bounds[0][1],
+					x = (bounds[0][0] + bounds[1][0]) / 2,
+					y = (bounds[0][1] + bounds[1][1]) / 2,
+					scale = Math.max(1, Math.min(8, 0.9 / Math.max(dx / width, dy / height))),
+					translate = [width / 2 - scale * x, height / 2 - scale * y];
+
+				mapG.transition()
+					.duration(750)
+					// .call(zoom.translate(translate).scale(scale).event); // not in d3 v4
+					.call( zoom.transform, d3.zoomIdentity.translate(translate[0],translate[1]).scale(scale) );
+
+				newPath
+					// .attr("id","selectedCountry_"+countryData.id)
+					.attr("class", 'mapBackgroundHighlight')
+					.on("mouseout", clearHighlight)
+					;
+
+				// zoom.scaleBy(newPath.transition().duration(750), 1.3);
+				// var bbox = path.getBBox();
+
+
 
 				d3.selectAll("#countryData").remove()
 				d3.selectAll("#countryChartG").remove()
@@ -720,8 +630,24 @@ function ready([topo, boundary,flows, stack, graph, beneficiaryData]) {
 		d3.selectAll("#sideChoroplethLeg").remove()
 		d3.selectAll("#wcpoBoundary").remove()
 		d3.selectAll("#boundaryLegendFlow").remove()
+		d3.selectAll("#mapInfoTitle").remove()
+		d3.selectAll("#flowmapInfoTitle").remove()
+		d3.selectAll("#flowPreview").style("opacity","1")		;
 
 
+		d3.selectAll("flowMapContainer").on("mouseclick", clearflowHighlight)
+
+		var mapsDistTitle = mapG.append("g").attr("transform", "translate(80,10)");
+
+		mapsDistTitle.append("text")
+			.attr("id","flowmapInfoTitle")
+			.attr("x", -24)
+			.attr("y", 9)
+			.attr("dy", ".35em")
+			.style("text-anchor", "start")
+			.style("font-size", "14px")
+			.style("fill", "grey")
+			.text("Map showing flows of economic benefits of tuna fish for the purse seine fishery");
 
 		// Draw new elements
 		var map = mapG.selectAll("path")
@@ -731,9 +657,7 @@ function ready([topo, boundary,flows, stack, graph, beneficiaryData]) {
 			.attr("id", function(d){return "path_" + d.id})
 			.attr("class", "mapBackground")
 			// draw each country
-			.attr("d", d3.geoPath()
-			   .projection(projection)
-			)
+			.attr("d", path)
 			.on("click", onMapClick)
 			.on("mousemove", onMouseMove)
 			.on('mouseover', highlightCountry)
@@ -746,13 +670,13 @@ function ready([topo, boundary,flows, stack, graph, beneficiaryData]) {
 			.enter()
 			.append("path")
 			.attr("fill", "none")
-			.attr("stroke", "#878e99")
+			.attr("stroke", "#52575b")
 			.attr("stroke-width", 0.2)
 			.attr("d", d3.geoPath().projection(projection));
 
 		var boundaryLegG = svg.append("g").attr("id","boundaryLegendFlow");
 		var boundaryL = boundaryLegG.append('g')
-			.attr("transform", "translate(865,630)");
+			.attr("transform", "translate(865,600)");
 
 		boundaryL.append("rect")
 			.attr("x", -18)
@@ -858,20 +782,22 @@ function ready([topo, boundary,flows, stack, graph, beneficiaryData]) {
 			.domain(mapkeys);
 
 		var Leg = svg.append("g").attr("id","mapLegend")
-			.attr("class", "exclude-from-zoom")
-			.on("mouseout", clearflowHighlight);
+			.attr("class", "exclude-from-zoom");
+			// .on("mouseout", clearflowHighlight);
 
 		var mapFlowlegend = Leg.selectAll(".legend")
 			.data(mapkeys.slice())
 			.enter().append("g")
 			.attr("class", "legend")
-			.on("mouseover", onFlowHighlight)
+			// .on("mouseover", onFlowHighlight)
+			.on("click", onFlowHighlight)
 			.attr("transform", function(d, i) { return "translate(0," + i * 20 + ")"; });
 
 		var mapL = mapFlowlegend.append('g')
-			.attr("transform", "translate(850,655)");
+			.attr("transform", "translate(850,615)");
 
 			mapL.append("line")
+				.attr("class", "legendFlowClass")
 				.attr("x1", - 18)
 				.attr("x2",18 )
 				.attr("y1", 10)
@@ -886,6 +812,7 @@ function ready([topo, boundary,flows, stack, graph, beneficiaryData]) {
 				.style("stroke", function(d){return colorScale(d)});
 
 			mapL.append("text")
+				.attr("class", "legendFlowClass")
 				.attr("x", -24)
 				.attr("y", 9)
 				.attr("dy", ".35em")
@@ -974,6 +901,9 @@ function ready([topo, boundary,flows, stack, graph, beneficiaryData]) {
 		d3.selectAll(".choroplethBackground").remove()
 		d3.selectAll("#sideChoroplethLeg").remove()
 		d3.selectAll("#boundaryLegendFlow").remove()
+		d3.selectAll("#mapInfoTitle").remove()
+		d3.selectAll("#flowmapInfoTitle").remove()
+		d3.selectAll("#flowPreview").style("opacity","0");
 
 		// Choropleth Data Merge
 		var countries = topojson.feature(topo, topo.objects.countries);
@@ -995,12 +925,14 @@ function ready([topo, boundary,flows, stack, graph, beneficiaryData]) {
 			colorValue = d => d.properties.perc_resource;
 			catchValue = d => d.properties.resource_catch;
 			colorScale = d3.scaleThreshold().domain([0.01, 1, 3, 6 , 10 ,15, 20]).range(colorScheme);
+			mapTitle = "Map of Resource Distribution by percentage of weight in MT for the purse seine fishery";
 		}
 		else if (beneficiaryType === "fleet") {
 			legendTitle = "Fleet Percentage Distribution";
 			colorValue = d => d.properties.perc_fleet;
 			catchValue = d => d.properties.fleet_catch;
 			colorScale = d3.scaleThreshold().domain([0.1, 1, 3, 6, 9, 12,20 ]).range(colorScheme);
+			mapTitle = "Map of Fleet Distribution by percentage of weight in MT for the purse seine fishery";
 		}
 		else if (beneficiaryType === "processing") {
 			legendTitle = "Processing Percentage Distribution";
@@ -1009,8 +941,22 @@ function ready([topo, boundary,flows, stack, graph, beneficiaryData]) {
 				? "no data weight"
 				: d.properties.processing_weight;
 			colorScale = d3.scaleThreshold().domain([0.1, 1, 3, 6, 9, 12 ,20]).range(colorScheme);
+			mapTitle = "Map of Processing Distribution by percentage of weight in MT for the purse seine fishery";
 
 		}
+
+		var mapsDistTitle = mapG.append("g").attr("transform", "translate(80,10)");
+
+		mapsDistTitle.append("text")
+			.attr("id","mapInfoTitle")
+			.attr("x", -24)
+			.attr("y", 9)
+			.attr("dy", ".35em")
+			.style("text-anchor", "start")
+			.style("fill", "grey")
+			.style("font-size", "14px")
+			.text(mapTitle);
+
 		console.log(countries.features)
 		//Loading choropleth  map
 		var mapChoropleth = mapG.append("g")
@@ -1049,7 +995,7 @@ function ready([topo, boundary,flows, stack, graph, beneficiaryData]) {
 
 		var boundaryLegG = svg.append("g").attr("id","boundaryLegendFlow");
 		var boundaryL = boundaryLegG.append('g')
-			.attr("transform", "translate(850,640)");
+			.attr("transform", "translate(850,610)");
 
 		boundaryL.append("rect")
 			.attr("x", -18)
@@ -1075,7 +1021,7 @@ function ready([topo, boundary,flows, stack, graph, beneficiaryData]) {
 		legG = svg.append("g")
 			.attr("id","choroplethLegend")
 			.attr("class", "key")
-			.attr("transform", "translate(700,685)");
+			.attr("transform", "translate(700,655)");
 
 		legG.selectAll("rect")
 			.data(colorScale.range().map(function(d) {
@@ -1253,7 +1199,7 @@ function ready([topo, boundary,flows, stack, graph, beneficiaryData]) {
 			.style("font-size", "13px")
 			.style("font-weight", 400)
 			.style("text-anchor", "middle")
-			.text("% Share Distribution");
+			.text("Percentage distribution by beneficiary type");
 
 	var group = barchart.selectAll("g.layer")
 			.data(d3.stack().keys(keys)(stack), d => d.key)
@@ -1396,7 +1342,12 @@ function ready([topo, boundary,flows, stack, graph, beneficiaryData]) {
 		  .size([width, height]);
 		  
 	const {nodes, links} = sankey(graph);
-	const color = d3.scaleOrdinal(d3.schemeCategory10);
+	scheme = d3.schemeCategory10
+	scheme.splice(3,1)
+	// scheme.splice(7,1)
+
+	const color = d3.scaleOrdinal(scheme)
+
 
 	// add in the nodes
 	sankeySvg.append("g")

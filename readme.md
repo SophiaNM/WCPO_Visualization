@@ -2,14 +2,16 @@
 
 ## Description
 This is a Geovisualization research project the Master's in Geoinformation Science and Earth Observations for Geoinformatics.
-This Interactive web mapping application has been built to visualize MES flow benefits with the case Western Central Pacific Ocean (WCPO) Region's Pacific Possible Project by World Bank.
+This Interactive web mapping application has been built to visualize the flows of economic benefits of Marine Ecosystem Services (MES).
+The visualization specifically shows the economic benefits of tuna fish from the purse seine fishery within the Western Central Pacific Ocean (WCPO) Region. 
+									
+The aim of the application is to interactively visualize, explore and understand the flows of benefits of MES across the world.
+The ultimate goal of such an application is to produce an adaptable approach of mapping other global supply value chains, or ES flows of  similar characteristics.
+								
 
-The aim of this application is to interactively visualize, explore and understand the flows of benefits of Marine Ecosystem Services to various locations across the world.
-The ultimate goal of such an application is that it can be used for other global benefit flows beyond fisheries.
-
-To enhance the communication of baseline data we demonstrate an interactive web mapping tool to visualize the flows of these benefits. 
-The application therefore translates static information of the Marine Ecosystem Services global value supply chain (see figure below) from lists, charts and tables into an interactive web map prototype.
-
+The data used in this visualize is obtained from the Pacific Possible Project report by World Bank and Nicholas Institute.
+We provide a new approach of communicating the baseline data in the report focusing on the steps in the global value supply chain as demonstrated below.
+									
 ![](https://github.com/SophiaNM/WCPO_Visualization/blob/master/images/global_supply_valuechain.png)
 
 ## Features

@@ -14,6 +14,14 @@
   </head>
 
   <body>
+  <div id="wrapper" class="hidden">
+	  <div class="loader ">
+		  <div class="circle"></div>
+		  <div class="circle"></div>
+	  </div>
+	  <div style="font-size: 10px;">Loading . . . </div>
+  </div>
+
   <div class="page-content">
 	  <!--Page header title-->
 	  <header style="background-color: #FFFFFF">
@@ -65,12 +73,13 @@
 								<h2 class="leaflet-sidebar-header title">About </h2>
 
 								<div class="sidenavContent">
-									<p>This Interactive web mapping application has been built to visualize MES flow benefits with the case Western Central Pacific Ocean (WCPO) Region's Pacific Possible Project by World Bank. </p>
-									<p>The aim of this application is to interactively visualize, explore and understand the flows of benefits of Marine Ecosystem Services to locations across the world.
-										The ultimate goal of such an application is to expand to other global benefit flows beyond fisheries.</p>
-									<!--In order to understand this, the first objective entailed acquiring baseline data to understand the current situation which would be key for understanding the drivers of change and create plausible scenarios.-->
+									<p>This Interactive web mapping application has been built to visualize the flows of economic benefits of Marine Ecosystem Services (MES).
+										The visualization specifically shows the economic benefits of tuna fish from the purse seine fishery within the Western Central Pacific Ocean (WCPO) Region. </p>
+									<p>The objective of the application is to interactively visualize, explore and understand the flows of benefits of MES across the world.
+										The ultimate goal of such an application is to produce an adaptable approach of mapping other global supply value chains, or ES flows of  similar characteristics</p>
 									</p>
-									<p> To enhance the communication of baseline data we demonstrate an interactive web mapping tool to visualize the flows of these benefits in the global value supply chain from reports as seen below.
+									<p> The data used in this visualize is obtained from the Pacific Possible Project report by World Bank and Nicholas Institute.
+										We provide a new approach of communicating the baseline data in the report focusing on the steps in the global value supply chain as demonstrated below.
 									</p>
 
 									<div class = "col-lg-12 wcpoimg">
@@ -107,7 +116,7 @@
 							<div class="tab-pane fade" id="v-pills-legend" role="tabpanel" aria-labelledby="v-pills-legend-tab">
 								<h2 class="leaflet-sidebar-header title">Legend</h2>
 								<div class="sidenavContent">
-									Legend details changes dynamically based on the map tabs. Select Beneficiary Type, resource, fleet or processing, to view distribution legends.
+									Legend details change dynamically based on the map tabs. Select Beneficiary Type; resource, fleet or processing, to view distribution legends.
 									<div id ="SidebarLegend">
 
 									</div>
@@ -166,6 +175,7 @@
 										<li>Place mouse over the maps countries and flows to view details.</li>
 										<li>Place mouse over barchart to view details, linked to map</li>
 										<li>Place mouse over flows in sankey to view details linked to flows in map</li>
+										<li>Click the lines or text in the flow legend to interactively filter the flows</li>
 
 									</ul>
 									</p>
@@ -187,7 +197,7 @@
 							<div class="tab-pane fade" id="v-pills-info" role="tabpanel" aria-labelledby="v-pills-info-tab">
 								<h2 class="leaflet-sidebar-header title">Info</h2>
 								<div class="sidenavContent">
-									<p>The use case used derives baseline data derived from reports on th Pacific possible project.
+									<p>Baseline data is derived from reports on th Pacific possible project and includes the following metadata.
 									</p>
 									<p tyle="margin-bottom: 0px"><strong>Metadata: </strong>
 										<ul class="infolist">
@@ -207,9 +217,10 @@
 										</ul>
 
 									</p>
-									<small>Disclaimer: Some of the data presented here has been altered and/or omitted for purposes of prototype demonstration
-									e.g. the location destination for Europe has been indicated as the centroid of Europe due to missing information at this granularity.
+									<small>Disclaimer: Some of the data presented here has been altered and/or omitted for proof of concept of the prototype demonstration.
+									e.g. the location destination for Europe has been altered to the capital of the European Commission (Brussels) instead of the centroid of Europe due ambiguity in information.
 									</small>
+									<p><small>Access the code to this application <a href="https://github.com/SophiaNM/WCPO_Visualization">here</a></small></p>
 								</div>
 							</div>
 
@@ -228,22 +239,27 @@
 					<!--Map-->
 
 					<div id="mapDiv" style="height: 100%; background-color: #FFFFFF; margin-bottom: 0px; width: 100%">
-						<p>Flow Map</p>
+						<!--<p id="flowmapInfo">Flow Map</p>-->
 						<div id="zooming">
 							<button id="zoom-in">+</button>
 							<button id="zoom-out">-</button>
 						</div>
-
+						<p id="flowmapInfo"><i  class="fas fa-info-circle"></i></p>
+						<span id="flowPreview">
+							<p id="maplegendInfo"><i  class="fas fa-info-circle"></i></p>
+						</span>
 					</div>
 				</div>
 				<div class="col-lg-5" style="height: 100%; padding-left: 5px">
 					<!--Graph-->
 					<div id="barDiv" style="height:49%; background-color: #FFFFFF; margin-bottom: 0px; width:100%; margin-bottom: 12px">
-						<p>Barchart</p>
+						<p id="barchartInfo">Barchart <i  class="fas fa-info-circle"style="width: 10px; padding-right: 15px; font-size: 11px;"></i></p>
+
+
 					</div>
 
 					<div id="sankeyDiv" style="height: 49%; background-color: #FFFFFF; width: 100%">
-						<p>Sankey Diagram</p>
+						<p id="sankeyInfo"> Sankey Diagram <i  class="fas fa-info-circle" style="width: 10px; padding-right: 15px; font-size: 11px";"></i> </p>
 					</div>
 				</div>
 			</div>
@@ -258,9 +274,11 @@
     <script src="lib/jquery.min.js"></script>
   	<script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
   	<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+    <script src="https://cdn.rawgit.com/prashantchaudhary/hovercard/master/jquery.hovercard.min.js"></script>
     <script src="lib/popper.js"></script>
     <script src="lib/bootstrap.min.js"></script>
     <script src="lib/sidebar.js"></script>
+
     <script src="js/beneficiaryswitch.js"></script>
 	<script src="https://d3js.org/d3.v5.min.js"></script>
 	<script src="https://unpkg.com/topojson@3"></script>
@@ -269,8 +287,11 @@
 	<script src="https://unpkg.com/d3-path@1"></script>
 	<script src="https://unpkg.com/d3-shape@1"></script>
 	<script src="https://unpkg.com/d3-sankey@0"></script>
+  	<script src="js/infoIcons.js"></script>
 	<script src="js/utils.js"></script>
 	<script src="js/main.js"></script>
+  	<script src="js/loader.js"></script>
+
 
 
   </body>

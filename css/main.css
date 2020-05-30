@@ -10,7 +10,68 @@ body{
 }
 /**/
 
+#wrapper {
 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+    position: fixed;
+    z-index: 99;
+    left: 0;
+    top: 0;
+    background-image: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+}
+
+/* LOADER 1 */
+.loader {
+    height: 50px;
+    transform-origin: bottom center;
+    animation: rotate 3s linear infinite;
+}
+
+.circle {
+    display: inline-block;
+    background-color: purple;
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
+    transform: scale(0);
+    animation: grow 1.5s linear infinite;
+    margin: -10px;
+}
+
+.circle:nth-child(2) {
+    background-color: #00dce1;
+    animation-delay: 0.75s;
+}
+
+@keyframes rotate {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes grow {
+    50% {
+        transform: scale(1);
+    }
+}
+#wrapper.hidden{
+    animation: fadeOut 4s;
+    animation-fill-mode: forwards;
+}
+
+@keyframes fadeOut {
+    50%  { opacity:1; }
+    100%{
+        opacity: 0;
+        visibility: hidden;
+    }
+    
+}
 
 /*Header*/
 header, #mapDiv, #barDiv, #sankeyDiv {
@@ -32,6 +93,69 @@ header h4 span{
     font-size: 16px;
 }
 /*header end*/
+
+/*Content*/
+
+p#barchartInfo{
+    font-size: 12px;
+    font-weight: normal;
+    cursor: pointer;
+
+}p#flowmapInfo{
+    font-size: 12px;
+    font-weight: normal;
+    position: absolute;
+    top: -323px;
+    left: -70px;
+    width: 10px;
+    cursor: pointer;
+
+}p#sankeyInfo{
+    font-size: 12px;
+    font-weight: normal;
+    cursor: pointer;
+}
+
+.hc-name{
+     display: inline;
+     width: 200px;
+ }
+
+div.hc-details{
+    position: absolute !important;
+    left: 0px;
+    top: -157px;
+    height: 90px;
+}
+div#mapDiv div.hc-details{
+    position: absolute !important;
+    left: 0px;
+    top: -327px;
+    height: 120px;
+}
+span#flowPreview div.hc-details{
+    position: absolute !important;
+    left: 684px;
+    top: 163px;
+    height: 90px;
+}
+
+p#maplegendInfo div.hc-details{
+    position: absolute !important;
+    bottom: -260px;
+    left: 829px !important;
+    height: 120px;
+}
+p#maplegendInfo.hc-name {
+    font-size: 15px;
+    font-weight: normal;
+    position: absolute;
+    bottom: -260px;
+    left: 829px !important;
+    width: 10px;
+    cursor: pointer;
+}
+
 
 /* Header Buttons*/
 #beneficiarybtn{
@@ -218,7 +342,6 @@ i{
 .wcpoimg{
     cursor: pointer;
     height: 500px;
-    padding-top:18px;
     text-align: center;
 }
 .modal-dialog{
@@ -342,14 +465,20 @@ ul.infolist {
 
 #content p{
     position: absolute;
-    left: 15px;
+    left: 10px;
 }
 #mapDiv p{
     position: absolute;
-    left: 25px;
+    left: 15px;
 }
 
 /*Map Content*/
+text#mapInfoTitle{
+    color: gray;
+}
+text#flowmapInfoTitle{
+    color: gray;
+}
 .countries {
     fill: none;
     stroke: #fff;
