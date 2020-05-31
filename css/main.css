@@ -583,13 +583,25 @@ text#flowmapInfoTitle{
     right: 5px;
 }
 #zooming button{
-    font-size: 8px
+    font-size: 10px
 ;
 }
 #mapLegend{
     position: relative;
     left: 50px;
 
+}
+button#zoom-in{
+    border: solid;
+    border-color: #a7aea7;
+    box-shadow: grey;
+    /*box-shadow: 2px 2px 1px #d8d5d5;*/
+}
+button#zoom-out{
+    border: solid;
+    border-color: #a7aea7;
+    box-shadow: grey;
+    /*box-shadow: 2px 2px 1px #d8d5d5;*/
 }
 /*End of Map Content*/
 
