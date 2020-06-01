@@ -1,6 +1,5 @@
 # Mapping Flows of Benefits of MES Across the Globe
 
-## Description
 This is a Geovisualization research project the Master's in Geo-information Science and Earth Observations for Geoinformatics. 
 An interactive web mapping application has been built to visualize the flows of economic benefits of Marine Ecosystem Services (MES).
 The visualization specifically shows the economic benefits of tuna fish from the purse seine fishery within the Western Central Pacific Ocean (WCPO) Region. 
@@ -16,6 +15,7 @@ We provide a new approach of communicating the baseline data in the report focus
 
 ## Features
 - The overview page allows users to see 3 visualization: A sankey diagram, barchart, and flow map.
+- Users can view distribution (choropleth) maps and switch between views by clicking on the mapview buttons.
 - User can get more information and functionality pn the side navigation bar including: about, search, help and information.
 - Users can also explore the application interactively through search, buttons, mouse hovers and clicks.
 
@@ -41,7 +41,7 @@ If found any other kindly open an issue.
 njerimurage92@gmail.com 
 
 ### Data sources
-- World Bank and Nicholas Institute (2016).Tuna fisheries: Pacific possible background paper No 3, 130.
-- Market and industry dynamics in the global tuna supply chain. Forum Fisheries Agency (FFA)
-- FFA Economic and Development Indicators and Statistics 2016
-- Williams, P., & Terawasi, P. (2015). Overview of Tuna Fisheries in the Western and Central Pacific Ocean
+- [World Bank and Nicholas Institute (2016).Tuna fisheries: Pacific possible background paper No 3, 130.](http://documents.worldbank.org/curated/en/966441503678446432/pdf/119107-WP-PUBLIC-P154324-133p-PPTunafisheriesbackgroundfinal.pdf)
+- [Market and industry dynamics in the global tuna supply chain. Forum Fisheries Agency (FFA)](https://www.ffa.int/node/567)
+- [FFA Economic and Development Indicators and Statistics 2016](https://www.ffa.int/node/1877)
+- [Williams, P., & Terawasi, P. (2015). Overview of Tuna Fisheries in the Western and Central Pacific Ocean](https://www.wcpfc.int/node/21762)
