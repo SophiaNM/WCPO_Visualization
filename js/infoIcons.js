@@ -1,6 +1,6 @@
     $(document).ready(function () {
         var hoverHTMLDemoBasic = '<p>' +
-            'The bar chart represents the % of weight in MT  for a country over the total global tuna fish weight caught or processed per beneficiary type';
+            'The bar chart represents the % of weight in MT  for a country over the total WCPO purse seine tuna fish weight at each segment of the value chain.';
         $("#barchartInfo").hovercard({
             detailsHTML: hoverHTMLDemoBasic,
             width: 285,

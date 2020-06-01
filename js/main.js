@@ -455,22 +455,6 @@ function ready([topo, boundary,flows, stack, graph, beneficiaryData]) {
 
 				//zoom to selection
 				newPath = d3.select("#path_"+countryData.id);
-				// bounds = path.bounds(newPath.datum());
-				//
-				// dx = bounds[1][0] - bounds[0][0],
-				// 	dy = bounds[1][1] - bounds[0][1],
-				// 	x = (bounds[0][0] + bounds[1][0]) / 2,
-				// 	y = (bounds[0][1] + bounds[1][1]) / 2,
-				// 	scale = Math.max(1, Math.min(8, 0.9 / Math.max(dx / width, dy / height))),
-				// 	translate = [width / 2 - scale * x, height / 2 - scale * y];
-				//
-				// mapG.transition()
-				// 	.duration(750)
-				// 	.call( zoom.transform, d3.zoomIdentity.translate(translate[0],translate[1]).scale(scale) );
-				//
-				newPath
-					.attr("class", 'mapBackgroundHighlight')
-					.on("mouseout", clearHighlight)	;
 
 
 				d3.selectAll("#countryData").remove()
@@ -567,6 +551,28 @@ function ready([topo, boundary,flows, stack, graph, beneficiaryData]) {
 					.attr("x", d => x(d.label) + x.bandwidth() / 2)
 					.attr("y", d => y(d.value) - 5)
 					.text(d => d.value + " mT");
+
+				// var pathExist = newPath["_groups"][0][0]
+				//
+				// if ( pathExist === null) {
+				// 	console.log("do nothing")
+				// } else {
+				// 	bounds = path.bounds(newPath.datum());
+				//
+				// 	dx = bounds[1][0] - bounds[0][0],
+				// 		dy = bounds[1][1] - bounds[0][1],
+				// 		x = (bounds[0][0] + bounds[1][0]) / 2,
+				// 		y = (bounds[0][1] + bounds[1][1]) / 2,
+				// 		scale = Math.max(1, Math.min(8, 0.9 / Math.max(dx / width, dy / height))),
+				// 		translate = [width / 2 - scale * x, height / 2 - scale * y];
+				//
+				// 	mapG.transition()
+				// 		.duration(750)
+				// 		.call(zoom.transform, d3.zoomIdentity.translate(translate[0], translate[1]).scale(scale));}
+
+				newPath
+					.attr("class", 'mapBackgroundHighlight')
+					.on("mouseout", clearHighlight)	;
 
 			}
 		});
