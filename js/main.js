@@ -1026,7 +1026,7 @@ function ready([topo, boundary,flows, stack, graph, beneficiaryData]) {
 			.attr("transform", "translate(18, 190)");
 
 		sideChoroplethG.append("text")
-			.attr("transform", "translate(-190,-80)")
+			.attr("transform", "translate(-220,-70)")
 			.attr("x",width/2)
 			.attr("y", 45)
 			.style("fill", "#404040")
