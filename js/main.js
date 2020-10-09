@@ -217,13 +217,13 @@ function ready([topo, boundary,flows, stack, graph, beneficiaryData]) {
 	continentFlows = {
 		"nodes": [],
 		"links": []
-	}
+	};
 	countryFlows = {
 		"nodes": [],
 		"links": []
-	}
+	};
 	countryArr = [];
-	idArr =[]
+	idArr =[];
 	continentArr = [];
 	cntryName = [];
 	continentName = [];
